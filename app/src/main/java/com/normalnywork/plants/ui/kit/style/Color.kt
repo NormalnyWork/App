@@ -20,5 +20,12 @@ data class AppColors(
             textPrimary = Color(0xFF000000),
             textSecondary = Color(0xFF888888),
         )
+
+        val Dark = AppColors(
+            background = Color(0xFF121212),
+            primary = Color(0xFF35C68C),
+            textPrimary = Color(0xFFFFFFFF),
+            textSecondary = Color(0xFF888888),
+        )
     }
 }
