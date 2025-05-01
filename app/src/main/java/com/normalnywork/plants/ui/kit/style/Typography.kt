@@ -1,6 +1,6 @@
 package com.normalnywork.plants.ui.kit.style
 
-import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -8,7 +8,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.normalnywork.plants.R
 
-val LocalAppTypography = compositionLocalOf<AppTypography> { provideAppTypography() }
+val LocalAppTypography = staticCompositionLocalOf<AppTypography> { provideAppTypography() }
 
 private val onestFontFamily = FontFamily(
     Font(R.font.onest_regular, weight = FontWeight.Normal),
@@ -17,7 +17,7 @@ private val onestFontFamily = FontFamily(
     Font(R.font.onest_bold, weight = FontWeight.Bold),
 )
 
-fun provideAppTypography(): AppTypography {
+private fun provideAppTypography(): AppTypography {
     return AppTypography(
         heading1 = TextStyle(
             fontFamily = onestFontFamily,
@@ -38,7 +38,12 @@ fun provideAppTypography(): AppTypography {
             fontFamily = onestFontFamily,
             fontWeight = FontWeight.Normal,
             fontSize = 16.sp,
-        )
+        ),
+        button = TextStyle(
+            fontFamily = onestFontFamily,
+            fontWeight = FontWeight.SemiBold,
+            fontSize = 16.sp,
+        ),
     )
 }
 
@@ -47,4 +52,5 @@ data class AppTypography(
     val heading2: TextStyle,
     val heading3: TextStyle,
     val body1: TextStyle,
+    val button: TextStyle,
 )

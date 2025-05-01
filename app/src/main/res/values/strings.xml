@@ -1,3 +1,12 @@
 <resources>
-    <string name="app_name">Plants</string>
+    <string name="app_name">нормальный ворк</string>
+
+    <string name="onboarding_title_1">Домашние растения — под контролем</string>
+    <string name="onboarding_title_2">Всё о растениях — в справочнике</string>
+    <string name="onboarding_title_3">Уход за растениями с удовольствием</string>
+    <string name="onboarding_content_1">Все задачи по уходу в одном месте. Удобно, наглядно и вовремя.</string>
+    <string name="onboarding_content_2">Выбирайте готовые схемы — или настраивайте уход под свои условия.</string>
+    <string name="onboarding_content_3">Ваш зелёный уголок — в одном касании. Удобно, просто, красиво, синхронизировано.</string>
+    <string name="onboarding_action_next">Далее</string>
+    <string name="onboarding_action_finish">Продолжить</string>
 </resources>

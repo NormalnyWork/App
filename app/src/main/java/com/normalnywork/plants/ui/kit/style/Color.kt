@@ -9,6 +9,7 @@ data class AppColors(
     val background: Color,
     val primary: Color,
     val textPrimary: Color,
+    val textSecondary: Color,
 ) {
 
     companion object {
@@ -16,7 +17,8 @@ data class AppColors(
         val Light = AppColors(
             background = Color(0xFFFFFFFF),
             primary = Color(0xFF1E9B69),
-            textPrimary = Color(0xFF000000)
+            textPrimary = Color(0xFF000000),
+            textSecondary = Color(0xFF888888),
         )
     }
 }
