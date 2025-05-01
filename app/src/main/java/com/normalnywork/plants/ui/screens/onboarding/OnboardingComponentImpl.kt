@@ -5,6 +5,7 @@ import com.arkivanov.essenty.backhandler.BackCallback
 import com.arkivanov.essenty.instancekeeper.InstanceKeeper
 import com.arkivanov.essenty.instancekeeper.getOrCreate
 import com.normalnywork.plants.ui.navigation.screen.OnboardingComponent
+import com.normalnywork.plants.utils.Prefs
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class OnboardingComponentImpl(
@@ -28,8 +29,10 @@ class OnboardingComponentImpl(
     }
 
     override fun next() {
-        if (stateHolder.currentPage >= 2) onFinish()
-        else {
+        if (stateHolder.currentPage >= 2) {
+            onFinish()
+            Prefs.onboardingShown = true
+        } else {
             stateHolder.currentPage++
             currentPage.value = stateHolder.currentPage
         }

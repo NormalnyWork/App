@@ -1,5 +1,6 @@
 package com.normalnywork.plants.ui.kit.components
 
+import androidx.compose.animation.Crossfade
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -7,6 +8,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
@@ -28,6 +31,7 @@ fun AppPrimaryButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
+    loading: Boolean = true,
     colors: AppButtonColors = AppButtonColors.Default,
 ) {
     val background by colors.backgroundColor(enabled = enabled)
@@ -39,20 +43,30 @@ fun AppPrimaryButton(
             .clip(LocalAppShapes.current.large)
             .background(background)
             .clickable(
-                enabled = enabled,
+                enabled = enabled && !loading,
                 role = Role.Button,
                 onClick = onClick
             ),
         horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterHorizontally),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Text(
-            text = text,
-            style = LocalAppTypography.current.button,
-            color = colors.contentColor,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-        )
+        Crossfade(loading) { isLoading ->
+            if (isLoading) {
+                CircularProgressIndicator(
+                    modifier = Modifier.size(28.dp),
+                    color = colors.contentColor,
+                    strokeWidth = 2.dp,
+                )
+            } else {
+                Text(
+                    text = text,
+                    style = LocalAppTypography.current.button,
+                    color = colors.contentColor,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
+            }
+        }
     }
 }
 

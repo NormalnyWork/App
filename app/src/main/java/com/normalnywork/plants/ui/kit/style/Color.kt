@@ -10,6 +10,8 @@ data class AppColors(
     val primary: Color,
     val textPrimary: Color,
     val textSecondary: Color,
+    val stroke: Color,
+    val error: Color,
 ) {
 
     companion object {
@@ -19,6 +21,8 @@ data class AppColors(
             primary = Color(0xFF1E9B69),
             textPrimary = Color(0xFF000000),
             textSecondary = Color(0xFF888888),
+            stroke = Color(0xFFC3C3C3),
+            error = Color(0xFFEE3E41),
         )
 
         val Dark = AppColors(
@@ -26,6 +30,8 @@ data class AppColors(
             primary = Color(0xFF35C68C),
             textPrimary = Color(0xFFFFFFFF),
             textSecondary = Color(0xFF888888),
+            stroke = Color(0xFF5D5D5D),
+            error = Color(0xFFD56062),
         )
     }
 }

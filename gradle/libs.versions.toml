@@ -11,6 +11,7 @@ okhttp = "4.10.0"
 decompose = "3.3.0"
 koin-bom = "3.5.6"
 serialization = "1.8.0"
+splitties = "3.0.0"
 
 [libraries]
 androidx-core = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -38,6 +39,8 @@ kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-
 okhttp = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
 
 coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
+
+splitties = { module = "com.louiscad.splitties:splitties-fun-pack-android-base", version.ref = "splitties" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

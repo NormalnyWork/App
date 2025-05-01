@@ -14,14 +14,13 @@ import com.normalnywork.plants.ui.kit.style.LocalAppColors
 import com.normalnywork.plants.ui.kit.style.LocalAppTypography
 
 @Composable
-fun AppBrandTopBar() {
+fun AppBrandTopBar(modifier: Modifier = Modifier.statusBarsPadding()) {
     Text(
         text = stringResource(R.string.app_name),
         style = LocalAppTypography.current.heading2,
         color = LocalAppColors.current.primary,
         textAlign = TextAlign.Center,
-        modifier = Modifier
-            .statusBarsPadding()
+        modifier = modifier
             .padding(top = 24.dp)
             .fillMaxWidth(),
     )

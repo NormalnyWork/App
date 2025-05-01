@@ -56,4 +56,6 @@ dependencies {
     implementation(libs.bundles.koin)
     // Coroutines
     implementation(libs.coroutines)
+    // Toolkit
+    implementation(libs.splitties)
 }

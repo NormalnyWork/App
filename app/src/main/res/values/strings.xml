@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">нормальный ворк</string>
 
+    <!-- ONBOARDING -->
     <string name="onboarding_title_1">Домашние растения — под контролем</string>
     <string name="onboarding_title_2">Всё о растениях — в справочнике</string>
     <string name="onboarding_title_3">Уход за растениями с удовольствием</string>
@@ -9,4 +10,17 @@
     <string name="onboarding_content_3">Ваш зелёный уголок — в одном касании. Удобно, просто, красиво, синхронизировано.</string>
     <string name="onboarding_action_next">Далее</string>
     <string name="onboarding_action_finish">Продолжить</string>
+
+    <!-- AUTH -->
+    <string name="auth_show_password">Показать пароль</string>
+    <string name="auth_hide_password">Скрыть пароль</string>
+    <string name="auth_username">Имя пользователя</string>
+    <string name="auth_email">Email</string>
+    <string name="auth_password">Пароль</string>
+    <string name="signin_title">Вход</string>
+    <string name="signin_question">Нет аккаунта? [Зарегистрироваться]</string>
+    <string name="signin_action">Войти</string>
+    <string name="signup_title">Регистрация</string>
+    <string name="signup_question">Есть аккаунт? [Войти]</string>
+    <string name="signup_action">Зарегистрироваться</string>
 </resources>
