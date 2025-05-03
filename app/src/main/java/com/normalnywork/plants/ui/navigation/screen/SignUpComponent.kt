@@ -1,6 +1,6 @@
 package com.normalnywork.plants.ui.navigation.screen
 
-import com.normalnywork.plants.domain.models.AuthError
+import com.normalnywork.plants.domain.entity.AuthError
 import kotlinx.coroutines.flow.StateFlow
 
 interface SignUpComponent {

@@ -1,4 +1,4 @@
-package com.normalnywork.plants.domain.models
+package com.normalnywork.plants.domain.entity
 
 enum class AuthError {
     UsernameEmpty,
@@ -7,7 +7,7 @@ enum class AuthError {
     EmailTaken,
     InvalidEmail,
     PasswordEmpty,
-    PasswordInvalid,
     WeakPassword,
+    InvalidCredentials,
     Unknown,
 }

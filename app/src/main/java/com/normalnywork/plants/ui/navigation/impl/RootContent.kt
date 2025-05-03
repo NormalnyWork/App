@@ -27,6 +27,7 @@ fun RootContent(component: RootComponent) {
             is RootScreen.Onboarding -> OnboardingScreen(component = screen.component)
             is RootScreen.SignUp -> SignUpScreen(component = screen.component)
             is RootScreen.SignIn -> SignInScreen(component = screen.component)
+            is RootScreen.BottomNavigation -> BottomNavigationContent(component = screen.component)
         }
     }
 }

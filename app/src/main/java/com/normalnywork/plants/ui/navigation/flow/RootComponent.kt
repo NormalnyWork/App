@@ -22,6 +22,9 @@ interface RootComponent {
 
         @Serializable
         data object SignIn : RootConfig
+
+        @Serializable
+        data object BottomNavigation : RootConfig
     }
 
     sealed class RootScreen {
@@ -31,5 +34,7 @@ interface RootComponent {
         class SignUp(val component: SignUpComponent) : RootScreen()
 
         class SignIn(val component: SignInComponent) : RootScreen()
+
+        class BottomNavigation(val component: BottomNavigationComponent) : RootScreen()
     }
 }

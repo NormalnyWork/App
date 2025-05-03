@@ -1,6 +1,6 @@
 package com.normalnywork.plants.ui.kit.components
 
-import androidx.compose.animation.Crossfade
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -31,7 +31,7 @@ fun AppPrimaryButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    loading: Boolean = true,
+    loading: Boolean = false,
     colors: AppButtonColors = AppButtonColors.Default,
 ) {
     val background by colors.backgroundColor(enabled = enabled)
@@ -50,7 +50,7 @@ fun AppPrimaryButton(
         horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterHorizontally),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Crossfade(loading) { isLoading ->
+        AnimatedContent(loading) { isLoading ->
             if (isLoading) {
                 CircularProgressIndicator(
                     modifier = Modifier.size(28.dp),

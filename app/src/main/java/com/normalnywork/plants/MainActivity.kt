@@ -11,8 +11,10 @@ import com.normalnywork.plants.ui.navigation.impl.RootComponentImpl
 import com.normalnywork.plants.ui.navigation.impl.RootContent
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        instance = this
         enableEdgeToEdge()
         setContent {
             AppTheme {
@@ -21,5 +23,16 @@ class MainActivity : ComponentActivity() {
                 RootContent(component = rootComponent)
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        instance = null
+    }
+
+    companion object {
+
+        var instance: MainActivity? = null
+            private set
     }
 }

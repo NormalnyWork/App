@@ -17,6 +17,14 @@
     <string name="auth_username">Имя пользователя</string>
     <string name="auth_email">Email</string>
     <string name="auth_password">Пароль</string>
+    <string name="auth_error_invalid_credentials">Данные для входа некорректны</string>
+    <string name="auth_error_username_empty">Введите имя пользователя</string>
+    <string name="auth_error_username_taken">Это имя пользователя уже занято</string>
+    <string name="auth_error_invalid_email">Введите корректный Email</string>
+    <string name="auth_error_email_taken">Этот Email уже занят</string>
+    <string name="auth_error_empty_password">Введите пароль</string>
+    <string name="auth_error_weak_password">Минимум 8 символов</string>
+    <string name="auth_error_unknown">Неизвестная ошибка</string>
     <string name="signin_title">Вход</string>
     <string name="signin_question">Нет аккаунта? [Зарегистрироваться]</string>
     <string name="signin_action">Войти</string>
