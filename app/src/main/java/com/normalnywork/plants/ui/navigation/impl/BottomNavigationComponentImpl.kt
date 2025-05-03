@@ -9,6 +9,7 @@ import com.arkivanov.decompose.value.Value
 import com.normalnywork.plants.ui.navigation.flow.BottomNavigationComponent
 import com.normalnywork.plants.ui.navigation.flow.BottomNavigationComponent.BottomNavigationConfig
 import com.normalnywork.plants.ui.navigation.flow.BottomNavigationComponent.BottomNavigationScreen
+import com.normalnywork.plants.ui.screens.plants.PlantsComponentImpl
 import com.normalnywork.plants.ui.screens.tasks.TasksComponentImpl
 
 class BottomNavigationComponentImpl(
@@ -34,11 +35,27 @@ class BottomNavigationComponentImpl(
         componentContext: ComponentContext,
     ): BottomNavigationScreen = when (config) {
         BottomNavigationConfig.Tasks -> tasksScreen(componentContext)
+        BottomNavigationConfig.Plants -> plantsScreen(componentContext)
+        BottomNavigationConfig.Handbook -> handbookScreen(componentContext)
     }
 
     private fun tasksScreen(componentContext: ComponentContext) =
         BottomNavigationScreen.TasksScreen(
             component = TasksComponentImpl(
+                componentContext = componentContext,
+            )
+        )
+
+    private fun handbookScreen(componentContext: ComponentContext) =
+        BottomNavigationScreen.HandbookScreen(
+            component = HandbookNavigationComponentImpl(
+                componentContext = componentContext,
+            )
+        )
+
+    private fun plantsScreen(componentContext: ComponentContext) =
+        BottomNavigationScreen.PlantsScreen(
+            component = PlantsComponentImpl(
                 componentContext = componentContext,
             )
         )

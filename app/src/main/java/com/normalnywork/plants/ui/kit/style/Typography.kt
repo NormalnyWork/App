@@ -44,6 +44,16 @@ private fun provideAppTypography(): AppTypography {
             fontWeight = FontWeight.Normal,
             fontSize = 14.sp,
         ),
+        caption1 = TextStyle(
+            fontFamily = onestFontFamily,
+            fontWeight = FontWeight.Bold,
+            fontSize = 12.sp,
+        ),
+        caption2 = TextStyle(
+            fontFamily = onestFontFamily,
+            fontWeight = FontWeight.Medium,
+            fontSize = 12.sp,
+        ),
         button = TextStyle(
             fontFamily = onestFontFamily,
             fontWeight = FontWeight.SemiBold,
@@ -58,5 +68,7 @@ data class AppTypography(
     val heading3: TextStyle,
     val body1: TextStyle,
     val body2: TextStyle,
+    val caption1: TextStyle,
+    val caption2: TextStyle,
     val button: TextStyle,
 )

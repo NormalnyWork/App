@@ -11,6 +11,7 @@ data class AppColors(
     val textPrimary: Color,
     val textSecondary: Color,
     val stroke: Color,
+    val strokeSecondary: Color,
     val error: Color,
 ) {
 
@@ -22,6 +23,7 @@ data class AppColors(
             textPrimary = Color(0xFF000000),
             textSecondary = Color(0xFF888888),
             stroke = Color(0xFFC3C3C3),
+            strokeSecondary = Color(0xFFF2F2F2),
             error = Color(0xFFEE3E41),
         )
 
@@ -31,6 +33,7 @@ data class AppColors(
             textPrimary = Color(0xFFFFFFFF),
             textSecondary = Color(0xFF888888),
             stroke = Color(0xFF5D5D5D),
+            strokeSecondary = Color(0xFF242424),
             error = Color(0xFFD56062),
         )
     }

@@ -1,4 +1,4 @@
-package com.normalnywork.plants.ui.navigation.impl
+package com.normalnywork.plants.ui.navigation.impl.content
 
 import Android13NavigationTransition
 import androidx.compose.foundation.background

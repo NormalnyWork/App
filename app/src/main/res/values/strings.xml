@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">нормальный ворк</string>
 
+    <!-- COMMON -->
+    <string name="common_tab_tasks">Главная</string>
+    <string name="common_tab_plants">Мои растения</string>
+    <string name="common_tab_handbook">Справочник</string>
+
     <!-- ONBOARDING -->
     <string name="onboarding_title_1">Домашние растения — под контролем</string>
     <string name="onboarding_title_2">Всё о растениях — в справочнике</string>

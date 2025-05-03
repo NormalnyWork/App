@@ -8,7 +8,7 @@ import androidx.compose.runtime.remember
 import com.arkivanov.decompose.defaultComponentContext
 import com.normalnywork.plants.ui.kit.style.AppTheme
 import com.normalnywork.plants.ui.navigation.impl.RootComponentImpl
-import com.normalnywork.plants.ui.navigation.impl.RootContent
+import com.normalnywork.plants.ui.navigation.impl.content.RootContent
 
 class MainActivity : ComponentActivity() {
 
