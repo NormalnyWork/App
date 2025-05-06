@@ -1,9 +1,10 @@
 package com.normalnywork.plants.data.di
 
-import com.normalnywork.plants.data.api.AuthService
 import com.normalnywork.plants.data.api.auth.AuthInterceptor
 import com.normalnywork.plants.data.api.auth.PrefsTokenStoreImpl
 import com.normalnywork.plants.data.api.auth.TokenStore
+import com.normalnywork.plants.data.api.services.AuthService
+import com.normalnywork.plants.data.api.services.PlantsService
 import com.normalnywork.plants.utils.Const
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
@@ -28,6 +29,8 @@ val networkModule = module {
     }
 
     single { get<Retrofit>().create<AuthService>() }
+
+    single { get<Retrofit>().create<PlantsService>() }
 
     single {
         Json {

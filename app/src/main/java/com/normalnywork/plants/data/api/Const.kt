@@ -1,13 +1,16 @@
 package com.normalnywork.plants.data.api
 
-object Routes {
+object ApiRoutes {
 
     const val SIGN_UP = "user"
     const val SIGN_IN = "token"
     const val REFRESH = "refresh"
+
+    const val GET_PLANTS = "plant"
+    const val CREATE_PLANT = "plant"
 }
 
-object Headers {
+object ApiHeaders {
 
     const val AUTHORIZATION = "Authorization"
     const val BEARER_TOKEN = "Bearer-token"

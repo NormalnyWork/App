@@ -1,7 +1,7 @@
 package com.normalnywork.plants.data.api.auth
 
-import com.normalnywork.plants.data.api.Headers
-import com.normalnywork.plants.data.api.Routes
+import com.normalnywork.plants.data.api.ApiHeaders
+import com.normalnywork.plants.data.api.ApiRoutes
 import com.normalnywork.plants.domain.repository.AppRepository
 import com.normalnywork.plants.domain.repository.AuthRepository
 import kotlinx.coroutines.runBlocking
@@ -17,7 +17,7 @@ class AuthInterceptor : Interceptor, KoinComponent {
     private val tokenStore: TokenStore by inject()
 
     override fun intercept(chain: Interceptor.Chain) = chain.run {
-        val requiresBearerToken = request().header(Headers.BEARER_TOKEN).isNullOrEmpty().not()
+        val requiresBearerToken = request().header(ApiHeaders.AUTHORIZATION).isNullOrEmpty().not()
         val token = tokenStore.getAccessToken()
 
         val requestBuilder = request().newBuilder()
@@ -25,7 +25,7 @@ class AuthInterceptor : Interceptor, KoinComponent {
         val response = proceed(requestBuilder.build())
 
         if (response.code == UNAUTHORIZED) {
-            if (response.request.url.toUrl().path == Routes.REFRESH) {
+            if (response.request.url.toUrl().path == ApiRoutes.REFRESH) {
                 tokenStore.logout()
                 appRepository.restart()
             } else {
@@ -49,9 +49,9 @@ class AuthInterceptor : Interceptor, KoinComponent {
     }
 
     private fun Request.Builder.signRequest(token: String) {
-        removeHeader(Headers.BEARER_TOKEN)
-        removeHeader(Headers.AUTHORIZATION)
-        addHeader(Headers.AUTHORIZATION, "$TOKEN_TYPE $token")
+        removeHeader(ApiHeaders.BEARER_TOKEN)
+        removeHeader(ApiHeaders.AUTHORIZATION)
+        addHeader(ApiHeaders.AUTHORIZATION, "$TOKEN_TYPE $token")
     }
 
     companion object {

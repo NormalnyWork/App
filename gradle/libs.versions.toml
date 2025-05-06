@@ -12,6 +12,7 @@ decompose = "3.3.0"
 koin-bom = "3.5.6"
 serialization = "1.8.0"
 splitties = "3.0.0"
+coilCompose = "3.1.0"
 
 [libraries]
 androidx-core = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -42,6 +43,9 @@ coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-andro
 
 splitties = { module = "com.louiscad.splitties:splitties-fun-pack-android-base", version.ref = "splitties" }
 
+coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coilCompose" }
+coil-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coilCompose" }
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
@@ -54,3 +58,4 @@ compose = ["compose-ui", "compose-graphics", "compose-material3"]
 decompose = ["decompose", "decompose-android", "decompose-extensions"]
 koin = ["koin-core", "koin-compose"]
 retrofit = ["retrofit", "retrofit-serialization", "retrofit-scalars", "kotlinx-serialization"]
+coil = ["coil-compose", "coil-network-okhttp"]

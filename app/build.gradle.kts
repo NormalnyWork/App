@@ -58,4 +58,6 @@ dependencies {
     implementation(libs.coroutines)
     // Toolkit
     implementation(libs.splitties)
+    // Image loading
+    implementation(libs.bundles.coil)
 }

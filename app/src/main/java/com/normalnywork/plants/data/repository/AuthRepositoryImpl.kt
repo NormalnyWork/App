@@ -2,11 +2,11 @@ package com.normalnywork.plants.data.repository
 
 import android.util.Log
 import android.util.Patterns
-import com.normalnywork.plants.data.api.AuthService
 import com.normalnywork.plants.data.api.auth.TokenStore
 import com.normalnywork.plants.data.api.models.Error
 import com.normalnywork.plants.data.api.models.SignInResponse
 import com.normalnywork.plants.data.api.models.SignUpRequest
+import com.normalnywork.plants.data.api.services.AuthService
 import com.normalnywork.plants.domain.entity.AuthError
 import com.normalnywork.plants.domain.repository.AuthRepository
 import kotlinx.serialization.json.Json

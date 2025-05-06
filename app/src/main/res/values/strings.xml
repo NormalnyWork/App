@@ -36,4 +36,27 @@
     <string name="signup_title">Регистрация</string>
     <string name="signup_question">Есть аккаунт? [Войти]</string>
     <string name="signup_action">Зарегистрироваться</string>
+
+    <!-- PLANTS -->
+    <string name="plants_title">Мои растения</string>
+    <string name="plants_empty_title">У вас нет растений</string>
+    <string name="plants_empty_body">Самое время добавить их</string>
+    <string name="plants_edit">Редактировать</string>
+    <string name="plants_add">Добавить</string>
+    <string name="plants_care_watering">Поливать</string>
+    <string name="plants_care_trim">Подстригать</string>
+    <string name="plants_care_rotate">Поворачивать</string>
+    <string name="plants_care_fertilize">Удобрять</string>
+    <string name="plants_care_clean">Чистить</string>
+    <string name="plants_care_transplant">Пересаживать</string>
+    <plurals name="plants_care_count">
+        <item quantity="one">%d раз</item>
+        <item quantity="two">%d раза</item>
+        <item quantity="few">%d раза</item>
+        <item quantity="many">%d раз</item>
+        <item quantity="other">%d раз</item>
+    </plurals>
+    <string name="plants_care_interval_day">в день</string>
+    <string name="plants_care_interval_week">в неделю</string>
+    <string name="plants_care_interval_month">в месяц</string>
 </resources>

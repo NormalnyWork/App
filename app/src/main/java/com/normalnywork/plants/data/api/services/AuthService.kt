@@ -1,5 +1,6 @@
-package com.normalnywork.plants.data.api
+package com.normalnywork.plants.data.api.services
 
+import com.normalnywork.plants.data.api.ApiRoutes
 import com.normalnywork.plants.data.api.models.SignInResponse
 import com.normalnywork.plants.data.api.models.SignUpRequest
 import retrofit2.http.Body
@@ -10,16 +11,16 @@ import retrofit2.http.POST
 
 interface AuthService {
 
-    @POST(Routes.SIGN_UP)
+    @POST(ApiRoutes.SIGN_UP)
     suspend fun signUp(@Body body: SignUpRequest): Int
 
-    @POST(Routes.SIGN_IN)
+    @POST(ApiRoutes.SIGN_IN)
     @FormUrlEncoded
     suspend fun signIn(
         @Field("username") email: String,
         @Field("password") password: String,
     ): SignInResponse
 
-    @POST(Routes.REFRESH)
+    @POST(ApiRoutes.REFRESH)
     suspend fun refreshToken(@Header("refresh-token") refreshToken:String): SignInResponse
 }

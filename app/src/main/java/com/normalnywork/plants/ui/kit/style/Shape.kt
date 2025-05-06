@@ -13,6 +13,7 @@ private fun provideAppShapes(): AppShapes {
         large = CircleShape,
         medium = RoundedCornerShape(16.dp),
         small = RoundedCornerShape(12.dp),
+        extraSmall = RoundedCornerShape(8.dp),
     )
 }
 
@@ -20,4 +21,5 @@ data class AppShapes(
     val large: Shape,
     val medium: Shape,
     val small: Shape,
+    val extraSmall: Shape,
 )
