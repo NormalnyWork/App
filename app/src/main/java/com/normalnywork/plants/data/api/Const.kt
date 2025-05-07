@@ -2,12 +2,13 @@ package com.normalnywork.plants.data.api
 
 object ApiRoutes {
 
-    const val SIGN_UP = "user"
-    const val SIGN_IN = "token"
-    const val REFRESH = "refresh"
+    const val SIGN_UP = "/user"
+    const val SIGN_IN = "/token"
+    const val REFRESH = "/refresh"
 
-    const val GET_PLANTS = "plant"
-    const val CREATE_PLANT = "plant"
+    const val GET_PLANTS = "/plant"
+    const val CREATE_PLANT = "/plant"
+    const val UPLOAD_FILE = "/file/upload"
 }
 
 object ApiHeaders {

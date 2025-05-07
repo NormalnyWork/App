@@ -8,4 +8,6 @@ interface PlantsComponent {
     val isLoading: StateFlow<Boolean>
 
     val plants: StateFlow<List<Plant>>
+
+    fun createPlant()
 }

@@ -22,6 +22,26 @@ data class PlantDto(
     val cleaning: CareDto?,
     @SerialName("TRANSPLANTATION")
     val transplantation: CareDto?,
+    @SerialName("FERTILIZE")
+    val fertilization: CareDto?,
+)
+
+@Serializable
+data class PlantCreateDto(
+    @SerialName("name")
+    val name: String,
+    @SerialName("image")
+    val image: String,
+    @SerialName("WATERING")
+    val watering: CareDto?,
+    @SerialName("HAIRCUT")
+    val trim: CareDto?,
+    @SerialName("ROTATION")
+    val rotation: CareDto?,
+    @SerialName("CLEANING")
+    val cleaning: CareDto?,
+    @SerialName("TRANSPLANTATION")
+    val transplantation: CareDto?,
 )
 
 @Serializable

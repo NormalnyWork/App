@@ -15,6 +15,7 @@ import org.koin.core.component.inject
 
 class PlantsComponentImpl(
     componentContext: ComponentContext,
+    private val navigateToCreatePlant: () -> Unit,
 ) : PlantsComponent, ComponentContext by componentContext, KoinComponent {
 
     private val plantsRepository: PlantsRepository by inject()
@@ -29,6 +30,8 @@ class PlantsComponentImpl(
             loadPlants()
         }
     }
+
+    override fun createPlant() = navigateToCreatePlant()
 
     private fun loadPlants() {
         componentScope.launch {

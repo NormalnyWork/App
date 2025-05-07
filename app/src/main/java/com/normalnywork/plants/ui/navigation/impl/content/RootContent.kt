@@ -13,6 +13,7 @@ import com.normalnywork.plants.ui.navigation.flow.RootComponent.RootScreen
 import com.normalnywork.plants.ui.screens.auth.SignInScreen
 import com.normalnywork.plants.ui.screens.auth.SignUpScreen
 import com.normalnywork.plants.ui.screens.onboarding.OnboardingScreen
+import com.normalnywork.plants.ui.screens.plants.CreatePlantScreen
 
 @Composable
 fun RootContent(component: RootComponent) {
@@ -28,6 +29,7 @@ fun RootContent(component: RootComponent) {
             is RootScreen.SignUp -> SignUpScreen(component = screen.component)
             is RootScreen.SignIn -> SignInScreen(component = screen.component)
             is RootScreen.BottomNavigation -> BottomNavigationContent(component = screen.component)
+            is RootScreen.CreatePlant -> CreatePlantScreen(component = screen.component)
         }
     }
 }

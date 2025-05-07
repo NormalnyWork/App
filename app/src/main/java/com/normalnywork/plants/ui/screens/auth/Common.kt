@@ -99,7 +99,7 @@ fun AuthTopBar(
         )
         Text(
             text = question,
-            style = LocalAppTypography.current.body2,
+            style = LocalAppTypography.current.body3,
             color = LocalAppColors.current.textSecondary,
         )
     }

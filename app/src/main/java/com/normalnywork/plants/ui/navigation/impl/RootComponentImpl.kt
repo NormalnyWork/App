@@ -5,6 +5,8 @@ import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.active
 import com.arkivanov.decompose.router.stack.childStack
+import com.arkivanov.decompose.router.stack.pop
+import com.arkivanov.decompose.router.stack.pushNew
 import com.arkivanov.decompose.router.stack.replaceCurrent
 import com.arkivanov.decompose.value.Value
 import com.normalnywork.plants.data.api.auth.TokenStore
@@ -14,6 +16,7 @@ import com.normalnywork.plants.ui.navigation.flow.RootComponent.RootScreen
 import com.normalnywork.plants.ui.screens.auth.SignInComponentImpl
 import com.normalnywork.plants.ui.screens.auth.SignUpComponentImpl
 import com.normalnywork.plants.ui.screens.onboarding.OnboardingComponentImpl
+import com.normalnywork.plants.ui.screens.plants.CreatePlantComponentImpl
 import com.normalnywork.plants.utils.Prefs
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -60,6 +63,7 @@ class RootComponentImpl(
         RootConfig.SignUp -> signUpScreen(componentContext)
         RootConfig.SignIn -> signInScreen(componentContext)
         RootConfig.BottomNavigation -> bottomNavigationScreen(componentContext)
+        RootConfig.CreatePlant -> createPlantScreen(componentContext)
     }
 
     private fun onboardingScreen(componentContext: ComponentContext) =
@@ -92,6 +96,15 @@ class RootComponentImpl(
         RootScreen.BottomNavigation(
             component = BottomNavigationComponentImpl(
                 componentContext = componentContext,
+                navigateToCreatePlant = { navigation.pushNew(RootConfig.CreatePlant) }
+            )
+        )
+
+    private fun createPlantScreen(componentContext: ComponentContext) =
+        RootScreen.CreatePlant(
+            component = CreatePlantComponentImpl(
+                componentContext = componentContext,
+                popBackStack = { navigation.pop() }
             )
         )
 }

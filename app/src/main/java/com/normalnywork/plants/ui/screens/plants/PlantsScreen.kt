@@ -65,7 +65,7 @@ fun PlantsScreen(component: PlantsComponent) {
             )
         },
         floatingActionButton = {
-            AddFloatingButton(onClick = { TODO() })
+            AddFloatingButton(onClick = component::createPlant)
         },
         floatingActionButtonPosition = FabPosition.Center,
         containerColor = LocalAppColors.current.background,
@@ -97,7 +97,7 @@ private fun AddFloatingButton(onClick: () -> Unit) {
         )
         Text(
             text = stringResource(R.string.plants_add),
-            style = LocalAppTypography.current.button,
+            style = LocalAppTypography.current.button2,
             color = LocalAppColors.current.background,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
@@ -319,7 +319,7 @@ private fun CarePreview(
                     CareInterval.MONTH -> stringResource(R.string.plants_care_interval_month)
                 }
             }",
-            style = LocalAppTypography.current.body2,
+            style = LocalAppTypography.current.body3,
             color = LocalAppColors.current.textSecondary,
         )
     }

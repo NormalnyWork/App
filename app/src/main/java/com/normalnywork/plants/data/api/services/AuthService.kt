@@ -22,5 +22,5 @@ interface AuthService {
     ): SignInResponse
 
     @POST(ApiRoutes.REFRESH)
-    suspend fun refreshToken(@Header("refresh-token") refreshToken:String): SignInResponse
+    suspend fun refreshToken(@Header("refresh-token-in") refreshToken:String): SignInResponse
 }

@@ -133,7 +133,7 @@ private fun TextWithIcon(
         )
         Text(
             text = text,
-            style = LocalAppTypography.current.body2,
+            style = LocalAppTypography.current.body3,
             color = tint,
         )
     }

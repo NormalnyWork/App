@@ -13,7 +13,8 @@ import com.normalnywork.plants.ui.screens.plants.PlantsComponentImpl
 import com.normalnywork.plants.ui.screens.tasks.TasksComponentImpl
 
 class BottomNavigationComponentImpl(
-    componentContext: ComponentContext
+    componentContext: ComponentContext,
+    private val navigateToCreatePlant: () -> Unit,
 ) : BottomNavigationComponent, ComponentContext by componentContext {
 
     private val navigation = StackNavigation<BottomNavigationConfig>()
@@ -57,6 +58,7 @@ class BottomNavigationComponentImpl(
         BottomNavigationScreen.PlantsScreen(
             component = PlantsComponentImpl(
                 componentContext = componentContext,
+                navigateToCreatePlant = navigateToCreatePlant,
             )
         )
 }

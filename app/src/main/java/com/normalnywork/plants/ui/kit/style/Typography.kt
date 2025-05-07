@@ -34,12 +34,27 @@ private fun provideAppTypography(): AppTypography {
             fontWeight = FontWeight.SemiBold,
             fontSize = 20.sp,
         ),
+        heading4 = TextStyle(
+            fontFamily = onestFontFamily,
+            fontWeight = FontWeight.SemiBold,
+            fontSize = 18.sp,
+        ),
+        heading5 = TextStyle(
+            fontFamily = onestFontFamily,
+            fontWeight = FontWeight.SemiBold,
+            fontSize = 16.sp,
+        ),
         body1 = TextStyle(
             fontFamily = onestFontFamily,
             fontWeight = FontWeight.Normal,
             fontSize = 16.sp,
         ),
         body2 = TextStyle(
+            fontFamily = onestFontFamily,
+            fontWeight = FontWeight.Medium,
+            fontSize = 16.sp,
+        ),
+        body3 = TextStyle(
             fontFamily = onestFontFamily,
             fontWeight = FontWeight.Normal,
             fontSize = 14.sp,
@@ -54,7 +69,12 @@ private fun provideAppTypography(): AppTypography {
             fontWeight = FontWeight.Medium,
             fontSize = 12.sp,
         ),
-        button = TextStyle(
+        button1 = TextStyle(
+            fontFamily = onestFontFamily,
+            fontWeight = FontWeight.Medium,
+            fontSize = 20.sp,
+        ),
+        button2 = TextStyle(
             fontFamily = onestFontFamily,
             fontWeight = FontWeight.SemiBold,
             fontSize = 16.sp,
@@ -66,9 +86,13 @@ data class AppTypography(
     val heading1: TextStyle,
     val heading2: TextStyle,
     val heading3: TextStyle,
+    val heading4: TextStyle,
+    val heading5: TextStyle,
     val body1: TextStyle,
     val body2: TextStyle,
+    val body3: TextStyle,
     val caption1: TextStyle,
     val caption2: TextStyle,
-    val button: TextStyle,
+    val button1: TextStyle,
+    val button2: TextStyle,
 )

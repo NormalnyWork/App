@@ -8,8 +8,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
@@ -18,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -30,9 +33,10 @@ fun AppPrimaryButton(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    icon: Painter? = null,
     enabled: Boolean = true,
     loading: Boolean = false,
-    colors: AppButtonColors = AppButtonColors.Default,
+    colors: AppPrimaryButtonColors = AppPrimaryButtonColors.Default,
 ) {
     val background by colors.backgroundColor(enabled = enabled)
 
@@ -58,19 +62,82 @@ fun AppPrimaryButton(
                     strokeWidth = 2.dp,
                 )
             } else {
-                Text(
-                    text = text,
-                    style = LocalAppTypography.current.button,
-                    color = colors.contentColor,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                )
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Text(
+                        text = text,
+                        style = LocalAppTypography.current.button2,
+                        color = colors.contentColor,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.weight(1f, fill = false),
+                    )
+                    icon?.let {
+                        Icon(
+                            painter = it,
+                            contentDescription = null,
+                            tint = colors.contentColor,
+                        )
+                    }
+                }
             }
         }
     }
 }
 
-data class AppButtonColors(
+@Composable
+fun AppSecondaryButton(
+    text: String,
+    icon: Painter? = null,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    filled: Boolean = true,
+    colors: AppSecondaryButtonColors = AppSecondaryButtonColors.Default,
+) {
+    val background by colors.backgroundColor(filled = filled)
+    val stroke by colors.strokeColor(filled = filled)
+
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(56.dp)
+            .dashedBorder(
+                strokeWidth = 2.dp,
+                color = stroke,
+                shape = LocalAppShapes.current.medium,
+            )
+            .clip(LocalAppShapes.current.medium)
+            .background(background)
+            .clickable(
+                role = Role.Button,
+                onClick = onClick
+            )
+            .padding(horizontal = 16.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterHorizontally),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        val content by colors.contentColor(filled = filled)
+
+        icon?.let {
+            Icon(
+                painter = it,
+                contentDescription = null,
+                tint = content,
+            )
+        }
+        Text(
+            text = text,
+            style = LocalAppTypography.current.button2,
+            color = content,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+        )
+    }
+}
+
+data class AppPrimaryButtonColors(
     val backgroundColor: Color,
     val disabledBackgroundColor: Color,
     val contentColor: Color,
@@ -84,11 +151,48 @@ data class AppButtonColors(
 
     companion object {
 
-        val Default: AppButtonColors
-            @Composable get() = AppButtonColors(
+        val Default: AppPrimaryButtonColors
+            @Composable get() = AppPrimaryButtonColors(
                 backgroundColor = LocalAppColors.current.primary,
                 disabledBackgroundColor = LocalAppColors.current.primary.copy(alpha = 0.5f),
                 contentColor = LocalAppColors.current.background,
+            )
+    }
+}
+
+data class AppSecondaryButtonColors(
+    val backgroundColor: Color,
+    val strokeColor: Color,
+    val contentColor: Color,
+    val contentColorFilled: Color,
+) {
+
+    @Composable
+    fun backgroundColor(filled: Boolean): State<Color> {
+        val color = if (filled) backgroundColor else Color.Transparent
+        return animateColorAsState(color)
+    }
+
+    @Composable
+    fun strokeColor(filled: Boolean): State<Color> {
+        val color = if (!filled) strokeColor else Color.Transparent
+        return animateColorAsState(color)
+    }
+
+    @Composable
+    fun contentColor(filled: Boolean): State<Color> {
+        val color = if (filled) contentColorFilled else contentColor
+        return animateColorAsState(color)
+    }
+
+    companion object {
+
+        val Default: AppSecondaryButtonColors
+            @Composable get() = AppSecondaryButtonColors(
+                backgroundColor = LocalAppColors.current.primary,
+                strokeColor = LocalAppColors.current.primary,
+                contentColor = LocalAppColors.current.primary,
+                contentColorFilled = LocalAppColors.current.background,
             )
     }
 }
