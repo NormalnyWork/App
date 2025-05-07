@@ -65,30 +65,37 @@ import com.normalnywork.plants.ui.kit.components.dashedBorder
 import com.normalnywork.plants.ui.kit.style.LocalAppColors
 import com.normalnywork.plants.ui.kit.style.LocalAppShapes
 import com.normalnywork.plants.ui.kit.style.LocalAppTypography
-import com.normalnywork.plants.ui.navigation.screen.CreatePlantComponent
+import com.normalnywork.plants.ui.navigation.screen.PlantDetailsComponent
 
 @Composable
-fun CreatePlantScreen(component: CreatePlantComponent) {
+fun PlantDetailsScreen(component: PlantDetailsComponent) {
     val scrollState = rememberScrollState()
+    val mode = component.mode
 
     Scaffold(
         topBar = {
             val showDivider by remember { derivedStateOf { scrollState.value > 0 } }
 
             AppTopBar(
-                title = stringResource(R.string.plants_new_title),
+                title = stringResource(
+                    when (mode) {
+                        PlantDetailsComponent.Mode.ADD -> R.string.plants_new_title
+                        PlantDetailsComponent.Mode.EDIT -> R.string.plants_edit_title
+                    }
+                ),
                 onBack = component::navigateBack,
                 showDivider = showDivider,
             )
         },
         bottomBar = {
-            val canCreate by component.canCreate.collectAsState()
+            val actionAvailable by component.actionAvailable.collectAsState()
             val loading by component.isLoading.collectAsState()
 
-            CreateButton(
-                enabled = canCreate,
+            ScreenActionButton(
+                mode = mode,
+                enabled = actionAvailable,
                 loading = loading,
-                onClick = component::create,
+                onClick = component::done,
             )
         },
         containerColor = LocalAppColors.current.background,
@@ -187,7 +194,8 @@ fun CreatePlantScreen(component: CreatePlantComponent) {
 }
 
 @Composable
-private fun CreateButton(
+private fun ScreenActionButton(
+    mode: PlantDetailsComponent.Mode,
     enabled: Boolean,
     loading: Boolean,
     onClick: () -> Unit,
@@ -199,7 +207,12 @@ private fun CreateButton(
     ) {
         HorizontalDivider(color = LocalAppColors.current.strokeSecondary)
         AppPrimaryButton(
-            text = stringResource(R.string.plants_new_action_add),
+            text = stringResource(
+                when (mode) {
+                    PlantDetailsComponent.Mode.ADD -> R.string.plants_new_action_add
+                    PlantDetailsComponent.Mode.EDIT -> R.string.plants_edit_action_save
+                }
+            ),
             icon = painterResource(R.drawable.ic_check_circle),
             onClick = onClick,
             modifier = Modifier.padding(16.dp),
@@ -253,7 +266,6 @@ private fun PhotoBlock(
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop,
-            onError = { it.result.throwable.printStackTrace() }
         )
         Column(
             modifier = Modifier

@@ -1,6 +1,7 @@
 package com.normalnywork.plants.data.repository
 
-import com.normalnywork.plants.data.api.mappers.toCreateDto
+import androidx.core.net.toUri
+import com.normalnywork.plants.data.api.mappers.toDto
 import com.normalnywork.plants.data.api.mappers.toModel
 import com.normalnywork.plants.data.api.services.PlantsService
 import com.normalnywork.plants.domain.entity.Plant
@@ -21,17 +22,35 @@ class PlantRepositoryImpl : PlantsRepository, KoinComponent {
     }
 
     override suspend fun createPlant(plant: Plant) {
-        val uploadedPhoto = plantsService.uploadFile(
-            MultipartBody.Part.createFormData(
-                name = "file",
-                filename = plant.image,
-                body = FileTools.getFileFromUri(plant.image).asRequestBody()
-            )
-        )
+        val uploadedPhoto = uploadImage(plant.image)
+
         plantsService.createPlant(
             plant
-                .copy(image = uploadedPhoto.url)
-                .toCreateDto()
+                .copy(image = uploadedPhoto)
+                .toDto()
         )
+    }
+
+    override suspend fun editPlant(plant: Plant) {
+        val photo = plant.image
+            .takeIf { it.toUri().scheme != "content" }
+            ?: uploadImage(plant.image)
+
+        plantsService.editPlant(
+            plantId = plant.id,
+            plant = plant
+                .copy(image = photo)
+                .toDto()
+        )
+    }
+
+    private suspend fun uploadImage(filePath: String): String {
+        return plantsService.uploadFile(
+            MultipartBody.Part.createFormData(
+                name = "file",
+                filename = filePath,
+                body = FileTools.getFileFromUri(filePath).asRequestBody()
+            )
+        ).url
     }
 }

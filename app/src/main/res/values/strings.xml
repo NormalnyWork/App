@@ -81,4 +81,6 @@
     <string name="plants_new_interval_month">месяц</string>
     <string name="plants_new_action_decrease">Убавить</string>
     <string name="plants_new_action_increase">Прибавить</string>
+    <string name="plants_edit_title">Редактирование</string>
+    <string name="plants_edit_action_save">Сохранить</string>
 </resources>

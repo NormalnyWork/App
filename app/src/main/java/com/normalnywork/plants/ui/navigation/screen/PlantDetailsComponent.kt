@@ -4,9 +4,11 @@ import com.normalnywork.plants.domain.entity.Care
 import com.normalnywork.plants.domain.entity.CareInterval
 import kotlinx.coroutines.flow.StateFlow
 
-interface CreatePlantComponent {
+interface PlantDetailsComponent {
 
-    val canCreate: StateFlow<Boolean>
+    val mode: Mode
+
+    val actionAvailable: StateFlow<Boolean>
     val isLoading: StateFlow<Boolean>
 
     val image: StateFlow<String?>
@@ -47,7 +49,12 @@ interface CreatePlantComponent {
     fun updateTransplantationInterval(interval: CareInterval)
     fun updateTransplantationCount(count: Int)
 
-    fun create()
+    fun done()
 
     fun navigateBack()
+
+    enum class Mode {
+        ADD,
+        EDIT,
+    }
 }

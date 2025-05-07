@@ -2,7 +2,7 @@ package com.normalnywork.plants.ui.navigation.flow
 
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.value.Value
-import com.normalnywork.plants.ui.navigation.screen.CreatePlantComponent
+import com.normalnywork.plants.domain.entity.Plant
 import com.normalnywork.plants.ui.navigation.screen.OnboardingComponent
 import com.normalnywork.plants.ui.navigation.screen.SignInComponent
 import com.normalnywork.plants.ui.navigation.screen.SignUpComponent
@@ -28,7 +28,7 @@ interface RootComponent {
         data object BottomNavigation : RootConfig
 
         @Serializable
-        data object CreatePlant : RootConfig
+        data class PlantDetails(val editPlant: Plant? = null) : RootConfig
     }
 
     sealed class RootScreen {
@@ -41,6 +41,6 @@ interface RootComponent {
 
         class BottomNavigation(val component: BottomNavigationComponent) : RootScreen()
 
-        class CreatePlant(val component: CreatePlantComponent) : RootScreen()
+        class PlantDetails(val component: com.normalnywork.plants.ui.navigation.screen.PlantDetailsComponent) : RootScreen()
     }
 }

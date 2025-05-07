@@ -42,6 +42,8 @@ data class PlantCreateDto(
     val cleaning: CareDto?,
     @SerialName("TRANSPLANTATION")
     val transplantation: CareDto?,
+    @SerialName("FERTILIZE")
+    val fertilization: CareDto?,
 )
 
 @Serializable

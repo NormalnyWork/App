@@ -29,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
@@ -37,6 +38,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import coil3.request.ImageRequest
+import coil3.request.crossfade
 import com.normalnywork.plants.R
 import com.normalnywork.plants.domain.entity.Care
 import com.normalnywork.plants.domain.entity.CareInterval
@@ -61,7 +64,7 @@ fun PlantsScreen(component: PlantsComponent) {
                 contentPaddings = contentPaddings,
                 isLoading = isLoading,
                 plants = plants,
-                editPlant = { TODO() }
+                editPlant = component::editPlant,
             )
         },
         floatingActionButton = {
@@ -223,7 +226,10 @@ private fun PlantCard(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         AsyncImage(
-            model = plant.image,
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(plant.image)
+                .crossfade(true)
+                .build(),
             contentDescription = null,
             modifier = Modifier
                 .size(72.dp)

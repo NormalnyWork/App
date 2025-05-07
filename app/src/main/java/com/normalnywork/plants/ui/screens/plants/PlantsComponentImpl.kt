@@ -1,5 +1,6 @@
 package com.normalnywork.plants.ui.screens.plants
 
+import android.util.Log
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.essenty.instancekeeper.InstanceKeeper
 import com.arkivanov.essenty.instancekeeper.getOrCreate
@@ -16,6 +17,7 @@ import org.koin.core.component.inject
 class PlantsComponentImpl(
     componentContext: ComponentContext,
     private val navigateToCreatePlant: () -> Unit,
+    private val navigateToEditPlant: (Plant) -> Unit,
 ) : PlantsComponent, ComponentContext by componentContext, KoinComponent {
 
     private val plantsRepository: PlantsRepository by inject()
@@ -33,6 +35,8 @@ class PlantsComponentImpl(
 
     override fun createPlant() = navigateToCreatePlant()
 
+    override fun editPlant(plant: Plant) = navigateToEditPlant(plant)
+
     private fun loadPlants() {
         componentScope.launch {
             runCatching {
@@ -42,7 +46,7 @@ class PlantsComponentImpl(
                 stateHolder.plants = it
                 plants.value = it
             }.onFailure {
-                it.printStackTrace()
+                Log.e("PlantsComponentImpl", "Failed to load plants:", it)
             }.also {
                 isLoading.value = false
             }

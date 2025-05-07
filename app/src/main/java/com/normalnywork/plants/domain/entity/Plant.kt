@@ -1,5 +1,8 @@
 package com.normalnywork.plants.domain.entity
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Plant(
     val id: Int,
     val name: String,

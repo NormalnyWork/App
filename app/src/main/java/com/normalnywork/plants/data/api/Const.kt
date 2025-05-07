@@ -8,6 +8,7 @@ object ApiRoutes {
 
     const val GET_PLANTS = "/plant"
     const val CREATE_PLANT = "/plant"
+    const val EDIT_PLANT = "/plant"
     const val UPLOAD_FILE = "/file/upload"
 }
 

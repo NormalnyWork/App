@@ -1,5 +1,6 @@
 package com.normalnywork.plants.ui.screens.plants
 
+import android.util.Log
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.essenty.instancekeeper.InstanceKeeper
 import com.arkivanov.essenty.instancekeeper.getOrCreate
@@ -7,23 +8,27 @@ import com.normalnywork.plants.domain.entity.Care
 import com.normalnywork.plants.domain.entity.CareInterval
 import com.normalnywork.plants.domain.entity.Plant
 import com.normalnywork.plants.domain.repository.PlantsRepository
-import com.normalnywork.plants.ui.navigation.screen.CreatePlantComponent
+import com.normalnywork.plants.ui.navigation.screen.PlantDetailsComponent
+import com.normalnywork.plants.ui.navigation.screen.PlantDetailsComponent.Mode
 import com.normalnywork.plants.utils.componentScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-class CreatePlantComponentImpl(
+class PlantDetailsComponentImpl(
     componentContext: ComponentContext,
+    private val editPlant: Plant?,
     private val popBackStack: () -> Unit,
-) : CreatePlantComponent, ComponentContext by componentContext, KoinComponent {
+) : PlantDetailsComponent, ComponentContext by componentContext, KoinComponent {
 
     private val plantsRepository: PlantsRepository by inject()
 
     private val stateHolder = instanceKeeper.getOrCreate { StateHolder() }
 
-    override val canCreate = MutableStateFlow(stateHolder.canCreate)
+    override val mode = if (editPlant == null) Mode.ADD else Mode.EDIT
+
+    override val actionAvailable = MutableStateFlow(stateHolder.actionAvailable)
     override val isLoading = MutableStateFlow(false)
 
     override val image = MutableStateFlow(stateHolder.image)
@@ -36,18 +41,20 @@ class CreatePlantComponentImpl(
     override val cleaning = MutableStateFlow(stateHolder.cleaning)
     override val transplantation = MutableStateFlow(stateHolder.transplantation)
 
+    init { if (editPlant != null) presetValuesFrom(editPlant) }
+
     override fun chooseImage(uri: String) {
         image.value = uri
         stateHolder.image = uri
 
-        checkCanCreate()
+        checkActionAvailable()
     }
 
     override fun onNameChanged(newName: String) {
         name.value = newName
         stateHolder.name = newName
 
-        checkCanCreate()
+        checkActionAvailable()
     }
 
     override fun toggleWatering() {
@@ -59,7 +66,7 @@ class CreatePlantComponentImpl(
             watering.value = null
         }
 
-        checkCanCreate()
+        checkActionAvailable()
     }
 
     override fun updateWateringInterval(interval: CareInterval) {
@@ -81,7 +88,7 @@ class CreatePlantComponentImpl(
             trim.value = null
         }
 
-        checkCanCreate()
+        checkActionAvailable()
     }
 
     override fun updateTrimInterval(interval: CareInterval) {
@@ -103,7 +110,7 @@ class CreatePlantComponentImpl(
             rotation.value = null
         }
 
-        checkCanCreate()
+        checkActionAvailable()
     }
 
     override fun updateRotationInterval(interval: CareInterval) {
@@ -125,7 +132,7 @@ class CreatePlantComponentImpl(
             fertilization.value = null
         }
 
-        checkCanCreate()
+        checkActionAvailable()
     }
 
     override fun updateFertilizationInterval(interval: CareInterval) {
@@ -147,7 +154,7 @@ class CreatePlantComponentImpl(
             cleaning.value = null
         }
 
-        checkCanCreate()
+        checkActionAvailable()
     }
 
     override fun updateCleaningInterval(interval: CareInterval) {
@@ -169,7 +176,7 @@ class CreatePlantComponentImpl(
             transplantation.value = null
         }
 
-        checkCanCreate()
+        checkActionAvailable()
     }
 
     override fun updateTransplantationInterval(interval: CareInterval) {
@@ -182,28 +189,31 @@ class CreatePlantComponentImpl(
         transplantation.value = stateHolder.transplantation
     }
 
-    override fun create() {
+    override fun done() {
         componentScope.launch {
             runCatching {
                 isLoading.value = true
 
-                plantsRepository.createPlant(
-                    Plant(
-                        id = -1,
-                        name = name.value,
-                        image = image.value!!,
-                        watering = watering.value,
-                        trim = trim.value,
-                        rotation = rotation.value,
-                        fertilization = fertilization.value,
-                        cleaning = cleaning.value,
-                        transplantation = transplantation.value,
-                    )
+                val plant = Plant(
+                    id = editPlant?.id ?: -1,
+                    name = name.value,
+                    image = image.value!!,
+                    watering = watering.value,
+                    trim = trim.value,
+                    rotation = rotation.value,
+                    fertilization = fertilization.value,
+                    cleaning = cleaning.value,
+                    transplantation = transplantation.value,
                 )
+
+                when (mode) {
+                    Mode.ADD -> plantsRepository.createPlant(plant)
+                    Mode.EDIT -> plantsRepository.editPlant(plant)
+                }
             }.onSuccess {
                 popBackStack()
             }.onFailure {
-                it.printStackTrace()
+                Log.e("PlantDetailsComponentImpl", "Failed to add/edit plant:", it)
             }.also {
                 isLoading.value = false
             }
@@ -212,8 +222,8 @@ class CreatePlantComponentImpl(
 
     override fun navigateBack() = popBackStack()
 
-    private fun checkCanCreate() {
-        stateHolder.canCreate = name.value.isNotBlank()
+    private fun checkActionAvailable() {
+        stateHolder.actionAvailable = name.value.isNotBlank()
                 && image.value != null
                 && (watering.value != null
                     || trim.value != null
@@ -221,7 +231,7 @@ class CreatePlantComponentImpl(
                     || fertilization.value != null
                     || cleaning.value != null
                     || transplantation.value != null)
-        canCreate.value = stateHolder.canCreate
+        actionAvailable.value = stateHolder.actionAvailable
     }
 
     private fun defaultCare() = Care(
@@ -229,9 +239,31 @@ class CreatePlantComponentImpl(
         count = 1
     )
 
+    private fun presetValuesFrom(editPlant: Plant) {
+        stateHolder.image = editPlant.image
+        stateHolder.name = editPlant.name
+        stateHolder.watering = editPlant.watering
+        stateHolder.trim = editPlant.trim
+        stateHolder.rotation = editPlant.rotation
+        stateHolder.fertilization = editPlant.fertilization
+        stateHolder.cleaning = editPlant.cleaning
+        stateHolder.transplantation = editPlant.transplantation
+
+        image.value = editPlant.image
+        name.value = editPlant.name
+        watering.value = editPlant.watering
+        trim.value = editPlant.trim
+        rotation.value = editPlant.rotation
+        fertilization.value = editPlant.fertilization
+        cleaning.value = editPlant.cleaning
+        transplantation.value = editPlant.transplantation
+
+        checkActionAvailable()
+    }
+
     class StateHolder : InstanceKeeper.Instance {
 
-        var canCreate = false
+        var actionAvailable = false
 
         var image: String? = null
         var name = ""

@@ -6,6 +6,7 @@ import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.bringToFront
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.value.Value
+import com.normalnywork.plants.domain.entity.Plant
 import com.normalnywork.plants.ui.navigation.flow.BottomNavigationComponent
 import com.normalnywork.plants.ui.navigation.flow.BottomNavigationComponent.BottomNavigationConfig
 import com.normalnywork.plants.ui.navigation.flow.BottomNavigationComponent.BottomNavigationScreen
@@ -15,6 +16,7 @@ import com.normalnywork.plants.ui.screens.tasks.TasksComponentImpl
 class BottomNavigationComponentImpl(
     componentContext: ComponentContext,
     private val navigateToCreatePlant: () -> Unit,
+    private val navigateToEditPlant: (Plant) -> Unit,
 ) : BottomNavigationComponent, ComponentContext by componentContext {
 
     private val navigation = StackNavigation<BottomNavigationConfig>()
@@ -59,6 +61,7 @@ class BottomNavigationComponentImpl(
             component = PlantsComponentImpl(
                 componentContext = componentContext,
                 navigateToCreatePlant = navigateToCreatePlant,
+                navigateToEditPlant = navigateToEditPlant,
             )
         )
 }

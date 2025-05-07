@@ -20,8 +20,7 @@ fun PlantDto.toModel() = Plant(
     fertilization = fertilization?.toModel(),
 )
 
-fun Plant.toDto() = PlantDto(
-    id = id,
+fun Plant.toDto() = PlantCreateDto(
     name = name,
     image = image,
     watering = watering?.toDto(),
@@ -29,17 +28,7 @@ fun Plant.toDto() = PlantDto(
     rotation = rotation?.toDto(),
     cleaning = cleaning?.toDto(),
     transplantation = transplantation?.toDto(),
-    fertilization = fertilization?.toDto()
-)
-
-fun Plant.toCreateDto() = PlantCreateDto(
-    name = name,
-    image = image,
-    watering = watering?.toDto(),
-    trim = trim?.toDto(),
-    rotation = rotation?.toDto(),
-    cleaning = cleaning?.toDto(),
-    transplantation = transplantation?.toDto(),
+    fertilization = fertilization?.toDto(),
 )
 
 private fun Care.toDto() = CareDto(

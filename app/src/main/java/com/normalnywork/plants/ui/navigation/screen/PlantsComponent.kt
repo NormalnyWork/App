@@ -10,4 +10,6 @@ interface PlantsComponent {
     val plants: StateFlow<List<Plant>>
 
     fun createPlant()
+
+    fun editPlant(plant: Plant)
 }

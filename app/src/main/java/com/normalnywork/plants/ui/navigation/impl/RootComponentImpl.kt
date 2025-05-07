@@ -10,13 +10,14 @@ import com.arkivanov.decompose.router.stack.pushNew
 import com.arkivanov.decompose.router.stack.replaceCurrent
 import com.arkivanov.decompose.value.Value
 import com.normalnywork.plants.data.api.auth.TokenStore
+import com.normalnywork.plants.domain.entity.Plant
 import com.normalnywork.plants.ui.navigation.flow.RootComponent
 import com.normalnywork.plants.ui.navigation.flow.RootComponent.RootConfig
 import com.normalnywork.plants.ui.navigation.flow.RootComponent.RootScreen
 import com.normalnywork.plants.ui.screens.auth.SignInComponentImpl
 import com.normalnywork.plants.ui.screens.auth.SignUpComponentImpl
 import com.normalnywork.plants.ui.screens.onboarding.OnboardingComponentImpl
-import com.normalnywork.plants.ui.screens.plants.CreatePlantComponentImpl
+import com.normalnywork.plants.ui.screens.plants.PlantDetailsComponentImpl
 import com.normalnywork.plants.utils.Prefs
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -31,7 +32,7 @@ class RootComponentImpl(
     private val initialConfiguration = when {
         !Prefs.onboardingShown -> RootConfig.Onboarding
         tokenStore.getAccessToken() != null -> RootConfig.BottomNavigation
-        else -> RootConfig.SignIn // TODO
+        else -> RootConfig.SignIn
     }
 
     override val childStack: Value<ChildStack<*, RootScreen>> =
@@ -43,7 +44,9 @@ class RootComponentImpl(
             childFactory = ::createChild,
         )
 
-    init { checkIfLoggedIn() }
+    init {
+        checkIfLoggedIn()
+    }
 
     private fun checkIfLoggedIn() {
         if (tokenStore.getAccessToken() == null
@@ -63,7 +66,7 @@ class RootComponentImpl(
         RootConfig.SignUp -> signUpScreen(componentContext)
         RootConfig.SignIn -> signInScreen(componentContext)
         RootConfig.BottomNavigation -> bottomNavigationScreen(componentContext)
-        RootConfig.CreatePlant -> createPlantScreen(componentContext)
+        is RootConfig.PlantDetails -> createPlantScreen(componentContext, config.editPlant)
     }
 
     private fun onboardingScreen(componentContext: ComponentContext) =
@@ -96,14 +99,16 @@ class RootComponentImpl(
         RootScreen.BottomNavigation(
             component = BottomNavigationComponentImpl(
                 componentContext = componentContext,
-                navigateToCreatePlant = { navigation.pushNew(RootConfig.CreatePlant) }
+                navigateToCreatePlant = { navigation.pushNew(RootConfig.PlantDetails()) },
+                navigateToEditPlant = { navigation.pushNew(RootConfig.PlantDetails(it)) },
             )
         )
 
-    private fun createPlantScreen(componentContext: ComponentContext) =
-        RootScreen.CreatePlant(
-            component = CreatePlantComponentImpl(
+    private fun createPlantScreen(componentContext: ComponentContext, editPlant: Plant?) =
+        RootScreen.PlantDetails(
+            component = PlantDetailsComponentImpl(
                 componentContext = componentContext,
+                editPlant = editPlant,
                 popBackStack = { navigation.pop() }
             )
         )
