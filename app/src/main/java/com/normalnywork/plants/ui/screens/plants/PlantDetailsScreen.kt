@@ -35,9 +35,7 @@ import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -74,8 +72,6 @@ fun PlantDetailsScreen(component: PlantDetailsComponent) {
 
     Scaffold(
         topBar = {
-            val showDivider by remember { derivedStateOf { scrollState.value > 0 } }
-
             AppTopBar(
                 title = stringResource(
                     when (mode) {
@@ -84,7 +80,7 @@ fun PlantDetailsScreen(component: PlantDetailsComponent) {
                     }
                 ),
                 onBack = component::navigateBack,
-                showDivider = showDivider,
+                showDivider = scrollState.canScrollBackward,
             )
         },
         bottomBar = {
@@ -95,6 +91,7 @@ fun PlantDetailsScreen(component: PlantDetailsComponent) {
                 mode = mode,
                 enabled = actionAvailable,
                 loading = loading,
+                showDivider = scrollState.canScrollForward,
                 onClick = component::done,
             )
         },
@@ -105,7 +102,7 @@ fun PlantDetailsScreen(component: PlantDetailsComponent) {
                 .padding(contentPaddings)
                 .fillMaxSize()
                 .verticalScroll(scrollState)
-                .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 16.dp),
+                .padding(horizontal = 16.dp, vertical = 8.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             val image by component.image.collectAsState()
@@ -198,14 +195,15 @@ private fun ScreenActionButton(
     mode: PlantDetailsComponent.Mode,
     enabled: Boolean,
     loading: Boolean,
+    showDivider: Boolean,
     onClick: () -> Unit,
 ) {
-    Column(
+    Box(
         modifier = Modifier
             .background(LocalAppColors.current.background)
             .navigationBarsPadding()
     ) {
-        HorizontalDivider(color = LocalAppColors.current.strokeSecondary)
+        if (showDivider) HorizontalDivider(color = LocalAppColors.current.strokeSecondary)
         AppPrimaryButton(
             text = stringResource(
                 when (mode) {
