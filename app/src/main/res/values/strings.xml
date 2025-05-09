@@ -83,4 +83,20 @@
     <string name="plants_new_action_increase">Прибавить</string>
     <string name="plants_edit_title">Редактирование</string>
     <string name="plants_edit_action_save">Сохранить</string>
+
+    <!-- TASKS -->
+    <string name="tasks_title">Задачи</string>
+    <string name="tasks_action_snooze">Завтра</string>
+    <string name="tasks_action_complete">Готово</string>
+    <string name="tasks_action_next">Далее</string>
+    <string name="tasks_care_watering">Полить</string>
+    <string name="tasks_care_trim">Подстричь</string>
+    <string name="tasks_care_rotate">Повернуть</string>
+    <string name="tasks_care_fertilize">Добавить удобрение</string>
+    <string name="tasks_care_clean">Почистить</string>
+    <string name="tasks_care_transplant">Пересадить</string>
+    <string name="tasks_time_today">Сегодня</string>
+    <string name="tasks_time_yesterday">Вчера</string>
+    <string name="tasks_no_tasks_subtitle">Нет задач</string>
+    <string name="tasks_done_subtitle">Выполнено</string>
 </resources>

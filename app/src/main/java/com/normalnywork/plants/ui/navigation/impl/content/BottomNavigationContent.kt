@@ -78,9 +78,9 @@ private fun BottomNavBar(
                     Text(
                         text = stringResource(tab.tabName()),
                         style = if (selected) {
-                            LocalAppTypography.current.caption1
-                        } else {
                             LocalAppTypography.current.caption2
+                        } else {
+                            LocalAppTypography.current.caption3
                         },
                         color = LocalContentColor.current,
                         maxLines = 1,

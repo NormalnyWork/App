@@ -61,13 +61,23 @@ private fun provideAppTypography(): AppTypography {
         ),
         caption1 = TextStyle(
             fontFamily = onestFontFamily,
-            fontWeight = FontWeight.Bold,
-            fontSize = 12.sp,
+            fontWeight = FontWeight.Medium,
+            fontSize = 14.sp,
         ),
         caption2 = TextStyle(
             fontFamily = onestFontFamily,
+            fontWeight = FontWeight.Bold,
+            fontSize = 12.sp,
+        ),
+        caption3 = TextStyle(
+            fontFamily = onestFontFamily,
             fontWeight = FontWeight.Medium,
             fontSize = 12.sp,
+        ),
+        caption4 = TextStyle(
+            fontFamily = onestFontFamily,
+            fontWeight = FontWeight.Medium,
+            fontSize = 10.sp,
         ),
         button1 = TextStyle(
             fontFamily = onestFontFamily,
@@ -93,6 +103,8 @@ data class AppTypography(
     val body3: TextStyle,
     val caption1: TextStyle,
     val caption2: TextStyle,
+    val caption3: TextStyle,
+    val caption4: TextStyle,
     val button1: TextStyle,
     val button2: TextStyle,
 )

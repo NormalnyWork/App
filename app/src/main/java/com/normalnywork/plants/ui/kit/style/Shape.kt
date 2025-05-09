@@ -10,7 +10,8 @@ val LocalAppShapes = staticCompositionLocalOf<AppShapes> { provideAppShapes() }
 
 private fun provideAppShapes(): AppShapes {
     return AppShapes(
-        large = CircleShape,
+        extraLarge = CircleShape,
+        large = RoundedCornerShape(24.dp),
         medium = RoundedCornerShape(16.dp),
         small = RoundedCornerShape(12.dp),
         extraSmall = RoundedCornerShape(8.dp),
@@ -18,6 +19,7 @@ private fun provideAppShapes(): AppShapes {
 }
 
 data class AppShapes(
+    val extraLarge: Shape,
     val large: Shape,
     val medium: Shape,
     val small: Shape,

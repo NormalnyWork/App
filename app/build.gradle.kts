@@ -60,4 +60,6 @@ dependencies {
     implementation(libs.splitties)
     // Image loading
     implementation(libs.bundles.coil)
+    // Blur
+    implementation(libs.haze)
 }

@@ -1,6 +1,8 @@
 package com.normalnywork.plants.ui.kit.components
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -38,6 +40,7 @@ fun AppBrandTopBar(modifier: Modifier = Modifier.statusBarsPadding()) {
 @Composable
 fun AppTopBar(
     title: String,
+    subtitle: String? = null,
     onBack: (() -> Unit)? = null,
     showDivider: Boolean = false,
 ) {
@@ -61,16 +64,30 @@ fun AppTopBar(
                 )
             }
         }
-        Text(
-            text = title,
-            style = LocalAppTypography.current.heading2,
-            color = LocalAppColors.current.textPrimary,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
+        Column(
             modifier = Modifier
                 .align(Alignment.Center)
-                .padding(horizontal = if (onBack == null) 16.dp else 72.dp)
-        )
+                .padding(horizontal = if (onBack == null) 16.dp else 72.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(2.dp),
+        ) {
+            Text(
+                text = title,
+                style = LocalAppTypography.current.heading2,
+                color = LocalAppColors.current.textPrimary,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+            subtitle?.let {
+                Text(
+                    text = it,
+                    style = LocalAppTypography.current.body3,
+                    color = LocalAppColors.current.textSecondary,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
+            }
+        }
         if (showDivider) HorizontalDivider(
             color = LocalAppColors.current.strokeSecondary,
             modifier = Modifier.align(Alignment.BottomCenter)

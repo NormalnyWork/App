@@ -80,7 +80,7 @@ fun PlantsScreen(component: PlantsComponent) {
 private fun AddFloatingButton(onClick: () -> Unit) {
     Row(
         modifier = Modifier
-            .clip(LocalAppShapes.current.large)
+            .clip(LocalAppShapes.current.extraLarge)
             .background(LocalAppColors.current.primary)
             .clickable(
                 role = Role.Button,
@@ -188,7 +188,7 @@ private fun PlantsList(
             top = 12.dp,
             start = 16.dp,
             end = 16.dp,
-            bottom = contentPaddings.calculateBottomPadding()
+            bottom = contentPaddings.calculateBottomPadding() + 80.dp,
         ),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {

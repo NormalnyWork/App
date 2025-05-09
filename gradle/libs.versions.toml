@@ -13,6 +13,7 @@ koin-bom = "3.5.6"
 serialization = "1.8.0"
 splitties = "3.0.0"
 coilCompose = "3.1.0"
+haze = "1.5.4"
 
 [libraries]
 androidx-core = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -45,6 +46,8 @@ splitties = { module = "com.louiscad.splitties:splitties-fun-pack-android-base",
 
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coilCompose" }
 coil-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coilCompose" }
+
+haze = { module = "dev.chrisbanes.haze:haze", version.ref = "haze" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

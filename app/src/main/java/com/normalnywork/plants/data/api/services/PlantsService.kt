@@ -25,10 +25,10 @@ interface PlantsService {
     @Headers(ApiHeaders.REQUIRES_AUTHORIZATION)
     suspend fun createPlant(@Body plant: PlantCreateDto): Int
 
-    @PUT(ApiRoutes.EDIT_PLANT + "/{plantId}")
+    @PUT(ApiRoutes.EDIT_PLANT)
     @Headers(ApiHeaders.REQUIRES_AUTHORIZATION)
     suspend fun editPlant(
-        @Path("plantId") plantId: Int,
+        @Path(ApiRoutes.ARGUMENT_1) plantId: Int,
         @Body plant: PlantCreateDto,
     )
 
