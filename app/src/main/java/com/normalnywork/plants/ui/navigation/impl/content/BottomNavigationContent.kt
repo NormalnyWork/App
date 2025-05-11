@@ -1,5 +1,9 @@
 package com.normalnywork.plants.ui.navigation.impl.content
 
+import android.Manifest
+import android.os.Build
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,6 +17,7 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -56,6 +61,7 @@ fun BottomNavigationContent(component: BottomNavigationComponent) {
             )
         }
     }
+    RequireNotificationsPermission()
 }
 
 @Composable
@@ -102,6 +108,19 @@ private fun BottomNavBar(
                     unselectedTextColor = LocalAppColors.current.textSecondary,
                 ),
             )
+        }
+    }
+}
+
+@Composable
+private fun RequireNotificationsPermission() {
+    val contract = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) {
+        // TODO: show rationale
+    }
+
+    LaunchedEffect(Unit) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            contract.launch(Manifest.permission.POST_NOTIFICATIONS)
         }
     }
 }

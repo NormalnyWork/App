@@ -7,6 +7,7 @@ object ApiRoutes {
     const val SIGN_UP = "/user"
     const val SIGN_IN = "/token"
     const val REFRESH = "/refresh"
+    const val REGISTER_FCM = "/user"
 
     const val GET_PLANTS = "/plant"
     const val CREATE_PLANT = "/plant"

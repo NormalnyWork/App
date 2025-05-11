@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "49476833200",
+    "project_id": "blum-7af0b",
+    "storage_bucket": "blum-7af0b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:49476833200:android:a7f7f387db8ea6ccf25075",
+        "android_client_info": {
+          "package_name": "com.normalnywork.plants"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyALADd57UYXWzpxtnlK6zJZ9RkKYcIYvUE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

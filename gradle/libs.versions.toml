@@ -14,6 +14,9 @@ serialization = "1.8.0"
 splitties = "3.0.0"
 coilCompose = "3.1.0"
 haze = "1.5.4"
+googleServices = "4.4.2"
+crashlytics = "3.0.3"
+firebase = "33.13.0"
 
 [libraries]
 androidx-core = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -49,11 +52,18 @@ coil-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version
 
 haze = { module = "dev.chrisbanes.haze:haze", version.ref = "haze" }
 
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase" }
+firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
+firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
+firebase-messaging = { module = "com.google.firebase:firebase-messaging" }
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" }
+firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "crashlytics" }
 
 [bundles]
 androidx = ["androidx-core", "androidx-lifecycle", "androidx-activity-compose"]
@@ -62,3 +72,4 @@ decompose = ["decompose", "decompose-android", "decompose-extensions"]
 koin = ["koin-core", "koin-compose"]
 retrofit = ["retrofit", "retrofit-serialization", "retrofit-scalars", "kotlinx-serialization"]
 coil = ["coil-compose", "coil-network-okhttp"]
+firebase = ["firebase-analytics", "firebase-crashlytics", "firebase-messaging"]

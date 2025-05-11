@@ -16,4 +16,6 @@ interface AuthRepository {
     ): AuthError?
 
     suspend fun refreshToken(): AuthError?
+
+    suspend fun registerFcmToken(token: String)
 }

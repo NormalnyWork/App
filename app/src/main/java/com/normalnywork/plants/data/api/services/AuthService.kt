@@ -1,12 +1,14 @@
 package com.normalnywork.plants.data.api.services
 
 import com.normalnywork.plants.data.api.ApiRoutes
+import com.normalnywork.plants.data.api.models.RegisterFcmTokenRequest
 import com.normalnywork.plants.data.api.models.SignInResponse
 import com.normalnywork.plants.data.api.models.SignUpRequest
 import retrofit2.http.Body
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.Header
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 
 interface AuthService {
@@ -23,4 +25,7 @@ interface AuthService {
 
     @POST(ApiRoutes.REFRESH)
     suspend fun refreshToken(@Header("refresh-token-in") refreshToken:String): SignInResponse
+
+    @PATCH(ApiRoutes.REGISTER_FCM)
+    suspend fun registerFcmToken(@Body body: RegisterFcmTokenRequest)
 }

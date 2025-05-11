@@ -2,17 +2,21 @@ package com.normalnywork.plants.data.repository
 
 import android.util.Log
 import android.util.Patterns
+import com.google.firebase.messaging.FirebaseMessaging
 import com.normalnywork.plants.data.api.auth.TokenStore
 import com.normalnywork.plants.data.api.models.Error
+import com.normalnywork.plants.data.api.models.RegisterFcmTokenRequest
 import com.normalnywork.plants.data.api.models.SignInResponse
 import com.normalnywork.plants.data.api.models.SignUpRequest
 import com.normalnywork.plants.data.api.services.AuthService
 import com.normalnywork.plants.domain.entity.AuthError
 import com.normalnywork.plants.domain.repository.AuthRepository
+import kotlinx.coroutines.tasks.await
 import kotlinx.serialization.json.Json
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import retrofit2.HttpException
+import java.util.TimeZone
 
 class AuthRepositoryImpl : AuthRepository, KoinComponent {
 
@@ -57,6 +61,10 @@ class AuthRepositoryImpl : AuthRepository, KoinComponent {
                 email = email,
                 password = password,
             ).also { it.saveTokens() }
+        }.also {
+            try {
+                registerFcmToken(getFcmToken())
+            } catch (_: Exception) {}
         }
     }
 
@@ -66,6 +74,19 @@ class AuthRepositoryImpl : AuthRepository, KoinComponent {
                 .also { it.saveTokens() }
         }
     }
+
+    override suspend fun registerFcmToken(token: String) {
+        runCatching {
+            authService.registerFcmToken(
+                RegisterFcmTokenRequest(
+                    fcmToken = token,
+                    timezone = TimeZone.getDefault().id,
+                )
+            )
+        }
+    }
+
+    private suspend fun getFcmToken() = FirebaseMessaging.getInstance().token.await().also { Log.i("TOKEN", it) }
 
     private suspend fun runCatchingAuth(
         block: suspend () -> Unit,

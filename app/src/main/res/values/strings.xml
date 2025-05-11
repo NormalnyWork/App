@@ -99,4 +99,7 @@
     <string name="tasks_time_yesterday">Вчера</string>
     <string name="tasks_no_tasks_subtitle">Нет задач</string>
     <string name="tasks_done_subtitle">Выполнено</string>
+    <string name="tasks_notification_title">Нужен уход 🌿</string>
+    <string name="tasks_notification_body">Появились новые задания. Подробнее в приложении.</string>
+    <string name="tasks_notification_channel">Напоминания об уходе</string>
 </resources>
