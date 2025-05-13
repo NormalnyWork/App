@@ -7,6 +7,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Intent
 import android.os.Build
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.google.firebase.messaging.FirebaseMessagingService
@@ -40,6 +41,7 @@ class PushMessagingService : FirebaseMessagingService(), KoinComponent {
             .setSmallIcon(R.drawable.ic_notification_logo)
             .setContentTitle(getString(R.string.tasks_notification_title))
             .setContentText(getString(R.string.tasks_notification_body))
+            .setStyle(NotificationCompat.BigTextStyle())
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(contentIntent)
             .setAutoCancel(true)
@@ -52,6 +54,8 @@ class PushMessagingService : FirebaseMessagingService(), KoinComponent {
                 notify(NOTIFICATION_ID, notification)
             }
         }
+
+        Log.i("PushMessagingService", message.data.toMap().toString())
     }
 
     override fun onNewToken(token: String) {

@@ -65,11 +65,11 @@ import com.normalnywork.plants.ui.kit.style.LocalAppColors
 import com.normalnywork.plants.ui.kit.style.LocalAppShapes
 import com.normalnywork.plants.ui.kit.style.LocalAppTypography
 import com.normalnywork.plants.ui.navigation.screen.TasksComponent
-import dev.chrisbanes.haze.HazeState
 import dev.chrisbanes.haze.HazeStyle
 import dev.chrisbanes.haze.HazeTint
 import dev.chrisbanes.haze.hazeEffect
 import dev.chrisbanes.haze.hazeSource
+import dev.chrisbanes.haze.rememberHazeState
 
 @Composable
 fun TasksScreen(component: TasksComponent) {
@@ -273,7 +273,7 @@ private fun TaskCard(task: Task) {
             .clip(LocalAppShapes.current.medium),
         contentAlignment = Alignment.BottomCenter,
     ) {
-        val blurState = remember { HazeState() }
+        val blurState = rememberHazeState(blurEnabled = true)
 
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
