@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">нормальный ворк</string>
+    <string name="app_name">BloomUP</string>
 
     <!-- COMMON -->
     <string name="common_tab_tasks">Главная</string>
