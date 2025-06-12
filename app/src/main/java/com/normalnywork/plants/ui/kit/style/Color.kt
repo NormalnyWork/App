@@ -7,6 +7,7 @@ val LocalAppColors = compositionLocalOf<AppColors> { error("No AppColors provide
 
 data class AppColors(
     val background: Color,
+    val backgroundSecondary: Color,
     val primary: Color,
     val textPrimary: Color,
     val textSecondary: Color,
@@ -19,6 +20,7 @@ data class AppColors(
 
         val Light = AppColors(
             background = Color(0xFFFFFFFF),
+            backgroundSecondary = Color(0xFFF1F1F1),
             primary = Color(0xFF1E9B69),
             textPrimary = Color(0xFF000000),
             textSecondary = Color(0xFF888888),
@@ -29,6 +31,7 @@ data class AppColors(
 
         val Dark = AppColors(
             background = Color(0xFF121212),
+            backgroundSecondary = Color(0xFF242424),
             primary = Color(0xFF35C68C),
             textPrimary = Color(0xFFFFFFFF),
             textSecondary = Color(0xFF888888),

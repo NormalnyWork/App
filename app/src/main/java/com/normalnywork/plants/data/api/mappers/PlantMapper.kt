@@ -42,7 +42,7 @@ private fun CareInterval.toDto() = when (this) {
     CareInterval.MONTH -> CareIntervalDto.MONTH
 }
 
-private fun CareDto.toModel() = Care(
+fun CareDto.toModel() = Care(
     interval = interval.toModel(),
     count = count,
 )

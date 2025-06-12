@@ -4,6 +4,7 @@ import androidx.core.net.toUri
 import com.normalnywork.plants.data.api.mappers.toDto
 import com.normalnywork.plants.data.api.mappers.toModel
 import com.normalnywork.plants.data.api.services.PlantsService
+import com.normalnywork.plants.domain.entity.Guide
 import com.normalnywork.plants.domain.entity.Plant
 import com.normalnywork.plants.domain.repository.PlantsRepository
 import com.normalnywork.plants.utils.FileTools
@@ -52,5 +53,10 @@ class PlantRepositoryImpl : PlantsRepository, KoinComponent {
                 body = FileTools.getFileFromUri(filePath).asRequestBody()
             )
         ).url
+    }
+
+    override suspend fun getGuidesList(): List<Guide> {
+        val response = plantsService.getGuidesList()
+        return response.map { it.toModel() }
     }
 }

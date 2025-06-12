@@ -27,11 +27,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextAlign
@@ -41,9 +39,8 @@ import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.normalnywork.plants.R
-import com.normalnywork.plants.domain.entity.Care
-import com.normalnywork.plants.domain.entity.CareInterval
 import com.normalnywork.plants.domain.entity.Plant
+import com.normalnywork.plants.ui.kit.common.CarePreview
 import com.normalnywork.plants.ui.kit.components.AppTopBar
 import com.normalnywork.plants.ui.kit.style.LocalAppColors
 import com.normalnywork.plants.ui.kit.style.LocalAppShapes
@@ -292,41 +289,6 @@ private fun PlantCard(
             painter = painterResource(R.drawable.ic_edit),
             contentDescription = stringResource(R.string.plants_edit),
             tint = LocalAppColors.current.primary,
-        )
-    }
-}
-
-@Composable
-private fun CarePreview(
-    icon: Painter,
-    action: String,
-    interval: Care,
-) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(6.dp),
-    ) {
-        Icon(
-            painter = icon,
-            contentDescription = null,
-            tint = LocalAppColors.current.textSecondary,
-        )
-        Text(
-            text = "$action ${
-                pluralStringResource(
-                    R.plurals.plants_care_count,
-                    interval.count,
-                    interval.count,
-                )
-            } ${
-                when(interval.interval) {
-                    CareInterval.DAY -> stringResource(R.string.plants_care_interval_day)
-                    CareInterval.WEEK -> stringResource(R.string.plants_care_interval_week)
-                    CareInterval.MONTH -> stringResource(R.string.plants_care_interval_month)
-                }
-            }",
-            style = LocalAppTypography.current.body3,
-            color = LocalAppColors.current.textSecondary,
         )
     }
 }

@@ -2,6 +2,7 @@ package com.normalnywork.plants.data.api.services
 
 import com.normalnywork.plants.data.api.ApiHeaders
 import com.normalnywork.plants.data.api.ApiRoutes
+import com.normalnywork.plants.data.api.models.GuideDto
 import com.normalnywork.plants.data.api.models.PlantCreateDto
 import com.normalnywork.plants.data.api.models.PlantDto
 import com.normalnywork.plants.data.api.models.UploadedFileDto
@@ -36,4 +37,8 @@ interface PlantsService {
     @Headers(ApiHeaders.REQUIRES_AUTHORIZATION)
     @Multipart
     suspend fun uploadFile(@Part filePart: MultipartBody.Part): UploadedFileDto
+
+    @GET(ApiRoutes.GET_GUIDES_LIST)
+    @Headers(ApiHeaders.REQUIRES_AUTHORIZATION)
+    suspend fun getGuidesList(): List<GuideDto>
 }

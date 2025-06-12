@@ -13,6 +13,7 @@ object ApiRoutes {
     const val CREATE_PLANT = "/plant"
     const val EDIT_PLANT = "/plant/{$ARGUMENT_1}"
     const val UPLOAD_FILE = "/file/upload"
+    const val GET_GUIDES_LIST = "/plant/guide"
 
     const val GET_TASKS = "/tasks/today"
     const val COMPLETE_TASK = "/tasks/{$ARGUMENT_1}/status"

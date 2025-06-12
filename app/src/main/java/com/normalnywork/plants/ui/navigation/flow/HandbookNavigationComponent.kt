@@ -2,6 +2,7 @@ package com.normalnywork.plants.ui.navigation.flow
 
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.value.Value
+import com.normalnywork.plants.domain.entity.Guide
 import com.normalnywork.plants.ui.navigation.screen.HandbookArticleComponent
 import com.normalnywork.plants.ui.navigation.screen.HandbookListComponent
 import kotlinx.serialization.Serializable
@@ -17,7 +18,7 @@ interface HandbookNavigationComponent {
         data object List : HandbookConfig
 
         @Serializable
-        data class Article(val id: Int) : HandbookConfig
+        data class Article(val guide: Guide) : HandbookConfig
     }
 
     sealed class HandbookScreen {
