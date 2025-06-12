@@ -1,3 +1,10 @@
 package com.normalnywork.plants.ui.navigation.screen
 
-interface HandbookArticleComponent
+import com.normalnywork.plants.domain.entity.Guide
+
+interface HandbookArticleComponent {
+
+    val guide: Guide
+
+    fun goBack()
+}

@@ -50,7 +50,7 @@ import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.normalnywork.plants.R
 import com.normalnywork.plants.domain.entity.Guide
-import com.normalnywork.plants.ui.kit.common.CarePreview
+import com.normalnywork.plants.ui.kit.common.CareOverview
 import com.normalnywork.plants.ui.kit.style.LocalAppColors
 import com.normalnywork.plants.ui.kit.style.LocalAppShapes
 import com.normalnywork.plants.ui.kit.style.LocalAppTypography
@@ -227,48 +227,14 @@ private fun LazyItemScope.GuideItem(
                 style = LocalAppTypography.current.heading3,
                 color = LocalAppColors.current.textPrimary,
             )
-            guide.watering?.let {
-                CarePreview(
-                    icon = painterResource(R.drawable.ic_care_watering),
-                    action = stringResource(R.string.plants_care_watering),
-                    interval = it,
-                )
-            }
-            guide.trim?.let {
-                CarePreview(
-                    icon = painterResource(R.drawable.ic_care_trim),
-                    action = stringResource(R.string.plants_care_trim),
-                    interval = it,
-                )
-            }
-            guide.rotation?.let {
-                CarePreview(
-                    icon = painterResource(R.drawable.ic_care_rotation),
-                    action = stringResource(R.string.plants_care_rotate),
-                    interval = it,
-                )
-            }
-            guide.fertilization?.let {
-                CarePreview(
-                    icon = painterResource(R.drawable.ic_care_fertilization),
-                    action = stringResource(R.string.plants_care_fertilize),
-                    interval = it,
-                )
-            }
-            guide.cleaning?.let {
-                CarePreview(
-                    icon = painterResource(R.drawable.ic_care_cleaning),
-                    action = stringResource(R.string.plants_care_clean),
-                    interval = it,
-                )
-            }
-            guide.transplantation?.let {
-                CarePreview(
-                    icon = painterResource(R.drawable.ic_care_transplantation),
-                    action = stringResource(R.string.plants_care_transplant),
-                    interval = it,
-                )
-            }
+            CareOverview(
+                watering = guide.watering,
+                trim = guide.trim,
+                rotation = guide.rotation,
+                fertilization = guide.fertilization,
+                cleaning = guide.cleaning,
+                transplantation = guide.transplantation
+            )
             Text(
                 text = stringResource(R.string.handbook_guide_details),
                 style = LocalAppTypography.current.body2,

@@ -40,7 +40,7 @@ import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.normalnywork.plants.R
 import com.normalnywork.plants.domain.entity.Plant
-import com.normalnywork.plants.ui.kit.common.CarePreview
+import com.normalnywork.plants.ui.kit.common.CareOverview
 import com.normalnywork.plants.ui.kit.components.AppTopBar
 import com.normalnywork.plants.ui.kit.style.LocalAppColors
 import com.normalnywork.plants.ui.kit.style.LocalAppShapes
@@ -242,48 +242,14 @@ private fun PlantCard(
                 style = LocalAppTypography.current.heading3,
                 color = LocalAppColors.current.textPrimary,
             )
-            plant.watering?.let {
-                CarePreview(
-                    icon = painterResource(R.drawable.ic_care_watering),
-                    action = stringResource(R.string.plants_care_watering),
-                    interval = it,
-                )
-            }
-            plant.trim?.let {
-                CarePreview(
-                    icon = painterResource(R.drawable.ic_care_trim),
-                    action = stringResource(R.string.plants_care_trim),
-                    interval = it,
-                )
-            }
-            plant.rotation?.let {
-                CarePreview(
-                    icon = painterResource(R.drawable.ic_care_rotation),
-                    action = stringResource(R.string.plants_care_rotate),
-                    interval = it,
-                )
-            }
-            plant.fertilization?.let {
-                CarePreview(
-                    icon = painterResource(R.drawable.ic_care_fertilization),
-                    action = stringResource(R.string.plants_care_fertilize),
-                    interval = it,
-                )
-            }
-            plant.cleaning?.let {
-                CarePreview(
-                    icon = painterResource(R.drawable.ic_care_cleaning),
-                    action = stringResource(R.string.plants_care_clean),
-                    interval = it,
-                )
-            }
-            plant.transplantation?.let {
-                CarePreview(
-                    icon = painterResource(R.drawable.ic_care_transplantation),
-                    action = stringResource(R.string.plants_care_transplant),
-                    interval = it,
-                )
-            }
+            CareOverview(
+                watering = plant.watering,
+                trim = plant.trim,
+                rotation = plant.rotation,
+                fertilization = plant.fertilization,
+                cleaning = plant.cleaning,
+                transplantation = plant.transplantation
+            )
         }
         Icon(
             painter = painterResource(R.drawable.ic_edit),

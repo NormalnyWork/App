@@ -4,6 +4,7 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
+import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.pushNew
 import com.arkivanov.decompose.value.Value
 import com.normalnywork.plants.domain.entity.Guide
@@ -52,6 +53,7 @@ class HandbookNavigationComponentImpl(
         component = HandbookArticleComponentImpl(
             componentContext = componentContext,
             guide = guide,
+            popBackStack = navigation::pop
         )
     )
 }

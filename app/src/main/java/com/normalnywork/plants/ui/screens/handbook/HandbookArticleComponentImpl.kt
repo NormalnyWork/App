@@ -6,5 +6,9 @@ import com.normalnywork.plants.ui.navigation.screen.HandbookArticleComponent
 
 class HandbookArticleComponentImpl(
     componentContext: ComponentContext,
-    private val guide: Guide,
-) : HandbookArticleComponent, ComponentContext by componentContext
+    override val guide: Guide,
+    private val popBackStack: () -> Unit,
+) : HandbookArticleComponent, ComponentContext by componentContext {
+
+    override fun goBack() = popBackStack()
+}
