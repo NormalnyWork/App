@@ -17,6 +17,7 @@ haze = "1.6.0"
 googleServices = "4.4.2"
 crashlytics = "3.0.3"
 firebase = "33.13.0"
+sheets = "1.31.1"
 
 [libraries]
 androidx-core = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -56,6 +57,8 @@ firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "fir
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 firebase-messaging = { module = "com.google.firebase:firebase-messaging" }
+
+sheets = { module = "com.composables:core", version.ref = "sheets" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

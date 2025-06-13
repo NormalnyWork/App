@@ -2,14 +2,17 @@ package com.normalnywork.plants.ui.screens.plants
 
 import android.util.Log
 import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.decompose.childContext
 import com.arkivanov.essenty.instancekeeper.InstanceKeeper
 import com.arkivanov.essenty.instancekeeper.getOrCreate
 import com.normalnywork.plants.domain.entity.Care
 import com.normalnywork.plants.domain.entity.CareInterval
+import com.normalnywork.plants.domain.entity.Guide
 import com.normalnywork.plants.domain.entity.Plant
 import com.normalnywork.plants.domain.repository.PlantsRepository
 import com.normalnywork.plants.ui.navigation.screen.PlantDetailsComponent
 import com.normalnywork.plants.ui.navigation.screen.PlantDetailsComponent.Mode
+import com.normalnywork.plants.ui.screens.handbook.HandbookListComponentImpl
 import com.normalnywork.plants.utils.componentScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -41,6 +44,12 @@ class PlantDetailsComponentImpl(
     override val cleaning = MutableStateFlow(stateHolder.cleaning)
     override val transplantation = MutableStateFlow(stateHolder.transplantation)
 
+    override val presetName = MutableStateFlow(stateHolder.presetName)
+    override val presetsComponent = HandbookListComponentImpl(
+        componentContext = childContext("presets"),
+        openGuide = ::setupPreset
+    )
+
     init { if (editPlant != null) presetValuesFrom(editPlant) }
 
     override fun chooseImage(uri: String) {
@@ -67,16 +76,21 @@ class PlantDetailsComponentImpl(
         }
 
         checkActionAvailable()
+        resetPreset()
     }
 
     override fun updateWateringInterval(interval: CareInterval) {
         stateHolder.watering = stateHolder.watering?.copy(interval = interval)
         watering.value = stateHolder.watering
+
+        resetPreset()
     }
 
     override fun updateWateringCount(count: Int) {
         stateHolder.watering = stateHolder.watering?.copy(count = count)
         watering.value = stateHolder.watering
+
+        resetPreset()
     }
 
     override fun toggleTrim() {
@@ -89,16 +103,21 @@ class PlantDetailsComponentImpl(
         }
 
         checkActionAvailable()
+        resetPreset()
     }
 
     override fun updateTrimInterval(interval: CareInterval) {
         stateHolder.trim = stateHolder.trim?.copy(interval = interval)
         trim.value = stateHolder.trim
+
+        resetPreset()
     }
 
     override fun updateTrimCount(count: Int) {
         stateHolder.trim = stateHolder.trim?.copy(count = count)
         trim.value = stateHolder.trim
+
+        resetPreset()
     }
 
     override fun toggleRotation() {
@@ -111,16 +130,21 @@ class PlantDetailsComponentImpl(
         }
 
         checkActionAvailable()
+        resetPreset()
     }
 
     override fun updateRotationInterval(interval: CareInterval) {
         stateHolder.rotation = stateHolder.rotation?.copy(interval = interval)
         rotation.value = stateHolder.rotation
+
+        resetPreset()
     }
 
     override fun updateRotationCount(count: Int) {
         stateHolder.rotation = stateHolder.rotation?.copy(count = count)
         rotation.value = stateHolder.rotation
+
+        resetPreset()
     }
 
     override fun toggleFertilization() {
@@ -133,16 +157,21 @@ class PlantDetailsComponentImpl(
         }
 
         checkActionAvailable()
+        resetPreset()
     }
 
     override fun updateFertilizationInterval(interval: CareInterval) {
         stateHolder.fertilization = stateHolder.fertilization?.copy(interval = interval)
         fertilization.value = stateHolder.fertilization
+
+        resetPreset()
     }
 
     override fun updateFertilizationCount(count: Int) {
         stateHolder.fertilization = stateHolder.fertilization?.copy(count = count)
         fertilization.value = stateHolder.fertilization
+
+        resetPreset()
     }
 
     override fun toggleCleaning() {
@@ -155,16 +184,21 @@ class PlantDetailsComponentImpl(
         }
 
         checkActionAvailable()
+        resetPreset()
     }
 
     override fun updateCleaningInterval(interval: CareInterval) {
         stateHolder.cleaning = stateHolder.cleaning?.copy(interval = interval)
         cleaning.value = stateHolder.cleaning
+
+        resetPreset()
     }
 
     override fun updateCleaningCount(count: Int) {
         stateHolder.cleaning = stateHolder.cleaning?.copy(count = count)
         cleaning.value = stateHolder.cleaning
+
+        resetPreset()
     }
 
     override fun toggleTransplantation() {
@@ -177,16 +211,21 @@ class PlantDetailsComponentImpl(
         }
 
         checkActionAvailable()
+        resetPreset()
     }
 
     override fun updateTransplantationInterval(interval: CareInterval) {
         stateHolder.transplantation = stateHolder.transplantation?.copy(interval = interval)
         transplantation.value = stateHolder.transplantation
+
+        resetPreset()
     }
 
     override fun updateTransplantationCount(count: Int) {
         stateHolder.transplantation = stateHolder.transplantation?.copy(count = count)
         transplantation.value = stateHolder.transplantation
+
+        resetPreset()
     }
 
     override fun done() {
@@ -234,10 +273,36 @@ class PlantDetailsComponentImpl(
         actionAvailable.value = stateHolder.actionAvailable
     }
 
+    private fun resetPreset() {
+        presetName.value = null
+        stateHolder.presetName = null
+    }
+
     private fun defaultCare() = Care(
         interval = CareInterval.DAY,
         count = 1
     )
+
+    private fun setupPreset(guide: Guide) {
+        presetName.value = guide.name
+        stateHolder.presetName = guide.name
+
+        stateHolder.watering = guide.watering
+        stateHolder.trim = guide.trim
+        stateHolder.rotation = guide.rotation
+        stateHolder.fertilization = guide.fertilization
+        stateHolder.cleaning = guide.cleaning
+        stateHolder.transplantation = guide.transplantation
+
+        watering.value = guide.watering
+        trim.value = guide.trim
+        rotation.value = guide.rotation
+        fertilization.value = guide.fertilization
+        cleaning.value = guide.cleaning
+        transplantation.value = guide.transplantation
+
+        checkActionAvailable()
+    }
 
     private fun presetValuesFrom(editPlant: Plant) {
         stateHolder.image = editPlant.image
@@ -268,6 +333,7 @@ class PlantDetailsComponentImpl(
         var image: String? = null
         var name = ""
 
+        var presetName: String? = null
         var watering: Care? = null
         var trim: Care? = null
         var rotation: Care? = null

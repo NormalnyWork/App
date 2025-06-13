@@ -17,11 +17,21 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.normalnywork.plants.R
 import com.normalnywork.plants.ui.kit.style.LocalAppColors
@@ -31,6 +41,8 @@ import com.normalnywork.plants.ui.navigation.flow.BottomNavigationComponent.Bott
 import com.normalnywork.plants.ui.navigation.flow.BottomNavigationComponent.BottomNavigationScreen
 import com.normalnywork.plants.ui.screens.plants.PlantsScreen
 import com.normalnywork.plants.ui.screens.tasks.TasksScreen
+
+val LocalBottomBarHeight = compositionLocalOf { 0.dp }
 
 @Composable
 fun BottomNavigationContent(component: BottomNavigationComponent) {
@@ -43,21 +55,26 @@ fun BottomNavigationContent(component: BottomNavigationComponent) {
                 .fillMaxSize()
                 .background(LocalAppColors.current.background),
         ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f),
-            ) {
-                when (val screen = child.instance) {
-                    is BottomNavigationScreen.TasksScreen -> TasksScreen(screen.component)
-                    is BottomNavigationScreen.PlantsScreen -> PlantsScreen(screen.component)
-                    is BottomNavigationScreen.HandbookScreen -> HandbookNavigationContent(screen.component)
+            var bottomBarHeight by remember { mutableStateOf(0.dp) }
+
+            CompositionLocalProvider(LocalBottomBarHeight provides bottomBarHeight) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f),
+                ) {
+                    when (val screen = child.instance) {
+                        is BottomNavigationScreen.TasksScreen -> TasksScreen(screen.component)
+                        is BottomNavigationScreen.PlantsScreen -> PlantsScreen(screen.component)
+                        is BottomNavigationScreen.HandbookScreen -> HandbookNavigationContent(screen.component)
+                    }
                 }
             }
             HorizontalDivider(color = LocalAppColors.current.strokeSecondary)
             BottomNavBar(
                 currentConfiguration = child.configuration as BottomNavigationConfig,
                 component = component,
+                onHeightChanged = { bottomBarHeight = it }
             )
         }
     }
@@ -68,8 +85,17 @@ fun BottomNavigationContent(component: BottomNavigationComponent) {
 private fun BottomNavBar(
     currentConfiguration: BottomNavigationConfig,
     component: BottomNavigationComponent,
+    onHeightChanged: (Dp) -> Unit
 ) {
-    NavigationBar(containerColor = LocalAppColors.current.background) {
+    val density = LocalDensity.current
+
+    NavigationBar(
+        containerColor = LocalAppColors.current.background,
+        modifier = Modifier
+            .onSizeChanged { size ->
+                onHeightChanged(with(density) { size.height.toDp() })
+            }
+    ) {
         listOf(
             BottomNavigationConfig.Tasks,
             BottomNavigationConfig.Plants,

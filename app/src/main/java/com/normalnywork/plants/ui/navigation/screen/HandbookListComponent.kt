@@ -11,5 +11,5 @@ interface HandbookListComponent {
 
     fun onSearchRequestChanged(newSearchRequest: String)
 
-    fun openGuide(guide: Guide)
+    fun goToGuide(guide: Guide)
 }

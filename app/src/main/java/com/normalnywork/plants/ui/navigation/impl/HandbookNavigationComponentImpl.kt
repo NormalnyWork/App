@@ -42,7 +42,7 @@ class HandbookNavigationComponentImpl(
         HandbookScreen.List(
             component = HandbookListComponentImpl(
                 componentContext = componentContext,
-                switchToGuide = { navigation.pushNew(HandbookConfig.Article(it)) }
+                openGuide = { navigation.pushNew(HandbookConfig.Article(it)) }
             )
         )
 

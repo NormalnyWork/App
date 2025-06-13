@@ -1,10 +1,6 @@
 package com.normalnywork.plants.ui.screens.handbook
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -12,9 +8,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.ime
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -23,23 +22,21 @@ import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
@@ -51,22 +48,40 @@ import coil3.request.crossfade
 import com.normalnywork.plants.R
 import com.normalnywork.plants.domain.entity.Guide
 import com.normalnywork.plants.ui.kit.common.CareOverview
+import com.normalnywork.plants.ui.kit.components.SearchTextField
 import com.normalnywork.plants.ui.kit.style.LocalAppColors
 import com.normalnywork.plants.ui.kit.style.LocalAppShapes
 import com.normalnywork.plants.ui.kit.style.LocalAppTypography
+import com.normalnywork.plants.ui.navigation.impl.content.LocalBottomBarHeight
 import com.normalnywork.plants.ui.navigation.screen.HandbookListComponent
 
 @Composable
-fun HandbookListScreen(component: HandbookListComponent) {
+fun HandbookListScreen(
+    component: HandbookListComponent,
+    isInBottomSheet: Boolean = false,
+    onDismiss: () -> Unit = { }
+) {
     val searchRequest by component.searchRequest.collectAsState()
     val guides by component.guides.collectAsState()
     val state = rememberLazyListState()
 
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(
+                bottom = if (isInBottomSheet) {
+                    WindowInsets.ime.asPaddingValues().calculateBottomPadding()
+                } else {
+                    (WindowInsets.ime.asPaddingValues().calculateBottomPadding() - LocalBottomBarHeight.current)
+                        .coerceAtLeast(0.dp)
+                }
+            )
+    ) {
         SearchTopBar(
             searchRequest = searchRequest,
             onSearchRequestChanged = component::onSearchRequestChanged,
-            showDivider = state.canScrollBackward
+            showDivider = state.canScrollBackward,
+            isInBottomSheet = isInBottomSheet
         )
 
         when {
@@ -79,11 +94,22 @@ fun HandbookListScreen(component: HandbookListComponent) {
             guides.isNotEmpty() -> {
                 HandbookGuidesList(
                     guides = guides,
-                    onGuideClick = component::openGuide,
-                    state = state
+                    onGuideClick = {
+                        component.goToGuide(it)
+                        if (isInBottomSheet) {
+                            onDismiss()
+                            component.onSearchRequestChanged("")
+                        }
+                    },
+                    state = state,
+                    isInBottomSheet = isInBottomSheet
                 )
             }
         }
+    }
+
+    LaunchedEffect(searchRequest) {
+        state.animateScrollToItem(0)
     }
 }
 
@@ -92,67 +118,18 @@ private fun SearchTopBar(
     searchRequest: String,
     onSearchRequestChanged: (String) -> Unit,
     showDivider: Boolean,
+    isInBottomSheet: Boolean
 ) {
     Column(
-        modifier = Modifier
-            .statusBarsPadding()
+        modifier = (if (!isInBottomSheet) Modifier.statusBarsPadding() else Modifier)
             .padding(top = 8.dp)
             .fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        val style = LocalAppTypography.current.body4
-
-        BasicTextField(
+        SearchTextField(
             value = searchRequest,
             onValueChange = onSearchRequestChanged,
-            singleLine = true,
-            textStyle = style.copy(color = LocalAppColors.current.textPrimary),
-            cursorBrush = SolidColor(LocalAppColors.current.primary),
-            decorationBox = { inputView ->
-                Row(
-                    modifier = Modifier
-                        .padding(horizontal = 16.dp)
-                        .fillMaxWidth()
-                        .height(56.dp)
-                        .background(
-                            color = LocalAppColors.current.backgroundSecondary,
-                            shape = CircleShape,
-                        )
-                        .padding(horizontal = 16.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(16.dp)
-                ) {
-                    Icon(
-                        painter = painterResource(R.drawable.ic_search),
-                        contentDescription = null,
-                        tint = LocalAppColors.current.textSecondary,
-                    )
-                    Box(Modifier.weight(1f)) {
-                        if (searchRequest.isEmpty()) Text(
-                            text = stringResource(R.string.handbook_search_placeholder),
-                            style = style,
-                            color = LocalAppColors.current.textSecondary,
-                        )
-                        inputView()
-                    }
-                    AnimatedVisibility(
-                        visible = searchRequest.isNotEmpty(),
-                        enter = fadeIn(),
-                        exit = fadeOut()
-                    ) {
-                        IconButton(
-                            onClick = { onSearchRequestChanged("") },
-                            modifier = Modifier.size(24.dp),
-                        ) {
-                            Icon(
-                                painter = painterResource(R.drawable.ic_clear),
-                                contentDescription = stringResource(R.string.handbook_search_clear),
-                                tint = LocalAppColors.current.textSecondary,
-                            )
-                        }
-                    }
-                }
-            }
+            modifier = Modifier.padding(horizontal = 16.dp)
         )
         HorizontalDivider(
             color = LocalAppColors.current.strokeSecondary,
@@ -166,20 +143,29 @@ private fun HandbookGuidesList(
     guides: List<Guide>,
     onGuideClick: (Guide) -> Unit,
     state: LazyListState,
+    isInBottomSheet: Boolean
 ) {
+    val keyboardController = LocalSoftwareKeyboardController.current
+
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(12.dp),
         contentPadding = PaddingValues(
             top = 8.dp,
-            bottom = 16.dp,
+            bottom = 16.dp + (if (isInBottomSheet) WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding() else 0.dp),
             start = 16.dp,
             end = 16.dp,
         ),
         state = state
     ) {
         items(guides, key = { it.name }) {
-            GuideItem(guide = it) { onGuideClick(it) }
+            GuideItem(
+                guide = it,
+                isInBottomSheet = isInBottomSheet
+            ) {
+                keyboardController?.hide()
+                onGuideClick(it)
+            }
         }
     }
 }
@@ -187,6 +173,7 @@ private fun HandbookGuidesList(
 @Composable
 private fun LazyItemScope.GuideItem(
     guide: Guide,
+    isInBottomSheet: Boolean,
     onGuideClick: () -> Unit,
 ) {
     Row(
@@ -235,7 +222,7 @@ private fun LazyItemScope.GuideItem(
                 cleaning = guide.cleaning,
                 transplantation = guide.transplantation
             )
-            Text(
+            if (!isInBottomSheet) Text(
                 text = stringResource(R.string.handbook_guide_details),
                 style = LocalAppTypography.current.body2,
                 color = LocalAppColors.current.primary,

@@ -64,6 +64,8 @@ dependencies {
     implementation(libs.bundles.coil)
     // Blur
     implementation(libs.haze)
+    // Sheets
+    implementation(libs.sheets)
     // Firebase
     implementation(platform(libs.firebase.bom))
     implementation(libs.bundles.firebase)

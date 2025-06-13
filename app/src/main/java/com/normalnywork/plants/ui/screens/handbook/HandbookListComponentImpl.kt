@@ -14,7 +14,7 @@ import org.koin.core.component.inject
 
 class HandbookListComponentImpl(
     componentContext: ComponentContext,
-    private val switchToGuide: (Guide) -> Unit,
+    private val openGuide: (Guide) -> Unit,
 ) : HandbookListComponent, ComponentContext by componentContext, KoinComponent {
 
     private val plantsRepository: PlantsRepository by inject()
@@ -43,7 +43,7 @@ class HandbookListComponentImpl(
         }
     }
 
-    override fun openGuide(guide: Guide) = switchToGuide(guide)
+    override fun goToGuide(guide: Guide) = openGuide(guide)
 
     class StateHolder : InstanceKeeper.Instance {
 

@@ -21,6 +21,9 @@ interface PlantDetailsComponent {
     val cleaning: StateFlow<Care?>
     val transplantation: StateFlow<Care?>
 
+    val presetName: StateFlow<String?>
+    val presetsComponent: HandbookListComponent
+
     fun chooseImage(uri: String)
 
     fun onNameChanged(newName: String)

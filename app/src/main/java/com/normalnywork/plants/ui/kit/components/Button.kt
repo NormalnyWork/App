@@ -2,6 +2,9 @@ package com.normalnywork.plants.ui.kit.components
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -129,13 +132,18 @@ fun AppSecondaryButton(
                 tint = content,
             )
         }
-        Text(
-            text = text,
-            style = LocalAppTypography.current.button2,
-            color = content,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-        )
+        AnimatedContent(
+            targetState = text,
+            transitionSpec = { fadeIn() togetherWith fadeOut() }
+        ) {
+            Text(
+                text = it,
+                style = LocalAppTypography.current.button2,
+                color = content,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+        }
     }
 }
 

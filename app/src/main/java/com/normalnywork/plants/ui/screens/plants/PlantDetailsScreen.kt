@@ -17,15 +17,20 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -36,9 +41,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -52,6 +59,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import com.composables.core.ModalBottomSheet
+import com.composables.core.Scrim
+import com.composables.core.Sheet
+import com.composables.core.SheetDetent
+import com.composables.core.rememberModalBottomSheetState
 import com.normalnywork.plants.R
 import com.normalnywork.plants.domain.entity.Care
 import com.normalnywork.plants.domain.entity.CareInterval
@@ -64,11 +76,17 @@ import com.normalnywork.plants.ui.kit.style.LocalAppColors
 import com.normalnywork.plants.ui.kit.style.LocalAppShapes
 import com.normalnywork.plants.ui.kit.style.LocalAppTypography
 import com.normalnywork.plants.ui.navigation.screen.PlantDetailsComponent
+import com.normalnywork.plants.ui.screens.handbook.HandbookListScreen
+import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PlantDetailsScreen(component: PlantDetailsComponent) {
     val scrollState = rememberScrollState()
     val mode = component.mode
+
+    val scope = rememberCoroutineScope()
+    val presetsSheetState = rememberModalBottomSheetState(initialDetent = SheetDetent.Hidden)
 
     Scaffold(
         topBar = {
@@ -125,7 +143,11 @@ fun PlantDetailsScreen(component: PlantDetailsComponent) {
                 color = LocalAppColors.current.textPrimary,
                 modifier = Modifier.padding(top = 8.dp)
             )
-            HandbookButton()
+            val presetName by component.presetName.collectAsState()
+            HandbookButton(
+                presetName = presetName,
+                expand = { scope.launch { presetsSheetState.animateTo(SheetDetent.FullyExpanded) } }
+            )
             Text(
                 text = stringResource(R.string.plants_new_manual_care_subtitle),
                 style = LocalAppTypography.current.heading5,
@@ -188,6 +210,44 @@ fun PlantDetailsScreen(component: PlantDetailsComponent) {
             )
         }
     }
+
+    val presetsComponent = component.presetsComponent
+    ModalBottomSheet(state = presetsSheetState) {
+        Scrim(
+            scrimColor = Color.Black.copy(alpha = 0.3f),
+            enter = fadeIn(),
+            exit = fadeOut()
+        )
+        Sheet {
+            Column(
+                modifier = Modifier
+                    .statusBarsPadding()
+                    .padding(top = 64.dp)
+                    .fillMaxWidth()
+                    .background(
+                        color = LocalAppColors.current.background,
+                        shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
+                    )
+                    .padding(top = 16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Spacer(
+                    modifier = Modifier
+                        .size(48.dp, 4.dp)
+                        .background(
+                            color = LocalAppColors.current.strokeSecondary,
+                            shape = CircleShape
+                        )
+                )
+                HandbookListScreen(
+                    component = presetsComponent,
+                    isInBottomSheet = true,
+                    onDismiss = { scope.launch { presetsSheetState.animateTo(SheetDetent.Hidden) } }
+                )
+            }
+        }
+    }
 }
 
 @Composable
@@ -221,12 +281,15 @@ private fun ScreenActionButton(
 }
 
 @Composable
-private fun HandbookButton() {
+private fun HandbookButton(
+    presetName: String?,
+    expand: () -> Unit
+) {
     AppSecondaryButton(
-        text = stringResource(R.string.plants_new_from_handbook),
-        icon = painterResource(R.drawable.ic_handbook),
-        filled = false,
-        onClick = { TODO() },
+        text = presetName ?: stringResource(R.string.plants_new_from_handbook),
+        icon = painterResource(if (presetName == null) R.drawable.ic_handbook else R.drawable.ic_refresh),
+        filled = presetName != null,
+        onClick = expand,
     )
 }
 
